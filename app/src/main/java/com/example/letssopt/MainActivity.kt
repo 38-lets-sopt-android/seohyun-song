@@ -2,6 +2,7 @@ package com.example.letssopt
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -13,8 +14,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialogDefaults.containerColor
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -195,6 +200,29 @@ fun LoginScreen(name: String, modifier: Modifier = Modifier) {
                     context.startActivity(intent)
                 })
         )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        // 로그인 버튼
+        Button(
+            onClick = { Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show() },
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFFE8003C),
+                contentColor = Color.White
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp)
+        ) {
+            Text(
+                "로그인",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily(Font(R.font.pretendard_bold)),
+                textAlign = TextAlign.Center,
+            )
+        }
     }
 }
 
