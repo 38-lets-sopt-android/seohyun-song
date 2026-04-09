@@ -183,7 +183,7 @@ fun LoginScreen(name: String, modifier: Modifier = Modifier) {
             )
         )
 
-        // Spacer(modifier = Modifier.height(333.dp))
+        Spacer(modifier = Modifier.weight(1f))
 
         // 회원가입 이동 텍스트
         Text(
@@ -194,7 +194,7 @@ fun LoginScreen(name: String, modifier: Modifier = Modifier) {
             color = Color(0xFF999999),
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(top = 200.dp)
+                // .padding(top = 200.dp)
                 .clickable(onClick = {
                     val intent = Intent(context,SignUpActivity::class.java)
                     context.startActivity(intent)
