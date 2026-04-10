@@ -1,6 +1,9 @@
 package com.example.letssopt
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns.EMAIL_ADDRESS
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -61,6 +64,9 @@ fun SignUpScreen(name: String, modifier: Modifier) {
     val context = LocalContext.current
     var emailInput by remember { mutableStateOf("") }
     var pwInput by remember { mutableStateOf("") }
+    var pwConfirm by remember { mutableStateOf("") }
+
+    val isButtonEnabled = emailInput.isNotBlank() && pwInput.isNotBlank() && pwConfirm.isNotBlank()
 
     Column(
         modifier = modifier
@@ -194,8 +200,8 @@ fun SignUpScreen(name: String, modifier: Modifier) {
         Spacer(modifier = Modifier.height(3.dp))
 
         TextField (
-            value = pwInput,
-            onValueChange = { pwInput = it },
+            value = pwConfirm,
+            onValueChange = { pwConfirm = it },
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation(),
             shape = RoundedCornerShape(8.dp),
@@ -225,11 +231,39 @@ fun SignUpScreen(name: String, modifier: Modifier) {
 
         // 회원가입 버튼
         Button(
-            onClick = { Toast.makeText(context, "회원가입에 성공했습니다", Toast.LENGTH_SHORT).show() },
+            onClick = {
+                when {
+                    // 이메일 형식: !EMAIL_ADDRESS.matcher(emailText).matches()
+                    !EMAIL_ADDRESS.matcher(emailInput).matches() -> {
+                        Toast.makeText(context, "이메일 형식이 올바르지 않습니다", Toast.LENGTH_SHORT).show()
+                    }
+                    // 비밀번호 길이: pwText.length !in 8..12
+                    pwInput.length !in  8..12 -> {
+                        Toast.makeText(context, "비밀번호는 8자 이상 12자 이하로 입력해 주세요", Toast.LENGTH_SHORT).show()
+                    }
+                    // 비밀번호 일치: pwText != pwConfirmText
+                    pwInput != pwConfirm -> {
+                        Toast.makeText(context, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
+                    }
+                    // 회원가입 성공
+                    else -> {
+                        Toast.makeText(context, "회원가입에 성공했습니다", Toast.LENGTH_SHORT).show()
+                        val resultIntent = Intent().apply {
+                            putExtra("email", emailInput)
+                            putExtra("password", pwInput)
+                        }
+                        (context as Activity).setResult(Activity.RESULT_OK, resultIntent)
+                        (context as Activity).finish()
+                    }
+                }
+            },
+            enabled = isButtonEnabled,
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFFE8003C),
-                contentColor = Color.White
+                contentColor = Color.White,
+                disabledContainerColor = Color(0xFF333333),
+                disabledContentColor = Color(0xFF666666)
             ),
             modifier = Modifier
                 .fillMaxWidth()
