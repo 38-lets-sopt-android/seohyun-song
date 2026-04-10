@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -72,7 +73,7 @@ fun SignUpScreen(name: String, modifier: Modifier) {
         modifier = modifier
             .fillMaxSize()
             .background(Color(0xFF141414))
-            .padding(all = 20.dp),
+            .padding(horizontal = 20.dp),
     ) {
         // 로고
         Text(
@@ -247,7 +248,8 @@ fun SignUpScreen(name: String, modifier: Modifier) {
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(52.dp)
+                .padding(bottom = 26.dp)
+                .heightIn(min = 52.dp)
         ) {
             Text(
                 "회원가입",
