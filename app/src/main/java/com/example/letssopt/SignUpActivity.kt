@@ -230,30 +230,12 @@ fun SignUpScreen(name: String, modifier: Modifier) {
         // 회원가입 버튼
         Button(
             onClick = {
-                when {
-                    // 이메일 형식: !EMAIL_ADDRESS.matcher(emailText).matches()
-                    !EMAIL_ADDRESS.matcher(emailInput).matches() -> {
-                        Toast.makeText(context, "이메일 형식이 올바르지 않습니다", Toast.LENGTH_SHORT).show()
-                    }
-                    // 비밀번호 길이: pwText.length !in 8..12
-                    pwInput.length !in  8..12 -> {
-                        Toast.makeText(context, "비밀번호는 8자 이상 12자 이하로 입력해 주세요", Toast.LENGTH_SHORT).show()
-                    }
-                    // 비밀번호 일치: pwText != pwConfirmText
-                    pwInput != pwConfirm -> {
-                        Toast.makeText(context, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
-                    }
-                    // 회원가입 성공
-                    else -> {
-                        Toast.makeText(context, "회원가입에 성공했습니다", Toast.LENGTH_SHORT).show()
-                        val resultIntent = Intent().apply {
-                            putExtra("email", emailInput)
-                            putExtra("password", pwInput)
-                        }
-                        (context as Activity).setResult(Activity.RESULT_OK, resultIntent)
-                        context.finish()
-                    }
-                }
+                signUpValidate(
+                    context = context,
+                    emailInput = emailInput,
+                    pwInput = pwInput,
+                    pwConfirm = pwConfirm
+                )
             },
             enabled = isButtonEnabled,
             shape = RoundedCornerShape(8.dp),
@@ -274,6 +256,38 @@ fun SignUpScreen(name: String, modifier: Modifier) {
                 fontFamily = FontFamily(Font(R.font.pretendard_bold)),
                 textAlign = TextAlign.Center,
             )
+        }
+    }
+}
+
+fun signUpValidate(
+    context: android.content.Context,
+    emailInput: String,
+    pwInput: String,
+    pwConfirm: String
+) {
+    when {
+        // 이메일 형식: !EMAIL_ADDRESS.matcher(emailText).matches()
+        !EMAIL_ADDRESS.matcher(emailInput).matches() -> {
+            Toast.makeText(context, "이메일 형식이 올바르지 않습니다", Toast.LENGTH_SHORT).show()
+        }
+        // 비밀번호 길이: pwText.length !in 8..12
+        pwInput.length !in  8..12 -> {
+            Toast.makeText(context, "비밀번호는 8자 이상 12자 이하로 입력해 주세요", Toast.LENGTH_SHORT).show()
+        }
+        // 비밀번호 일치: pwText != pwConfirmText
+        pwInput != pwConfirm -> {
+            Toast.makeText(context, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
+        }
+        // 회원가입 성공
+        else -> {
+            Toast.makeText(context, "회원가입에 성공했습니다", Toast.LENGTH_SHORT).show()
+            val resultIntent = Intent().apply {
+                putExtra("email", emailInput)
+                putExtra("password", pwInput)
+            }
+            (context as Activity).setResult(Activity.RESULT_OK, resultIntent)
+            context.finish()
         }
     }
 }

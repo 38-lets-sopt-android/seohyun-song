@@ -219,24 +219,13 @@ fun LoginScreen(name: String, modifier: Modifier = Modifier) {
         // 로그인 버튼
         Button(
             onClick = {
-                when {
-                    // 회원가입 정보가 없을 때
-                    registeredEmail.isEmpty() || registeredPw.isEmpty() -> {
-                        Toast.makeText(context, "먼저 회원가입을 진행해 주세요", Toast.LENGTH_SHORT).show()
-                    }
-                    // 이메일 또는 비밀번호 불일치
-                    emailInput != registeredEmail || pwInput != registeredPw -> {
-                        Toast.makeText(context, "이메일 또는 비밀번호가 올바르지 않습니다", Toast.LENGTH_SHORT).show()
-                    }
-                    // 로그인 성공
-                    else -> {
-                        Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(context, MainActivity::class.java).apply {
-                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        }
-                        context.startActivity(intent)
-                    }
-                }
+                loginValidate(
+                    context = context,
+                    emailInput = emailInput,
+                    pwInput = pwInput,
+                    registeredEmail = registeredEmail,
+                    registeredPw = registeredPw
+                )
             },
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
@@ -254,6 +243,33 @@ fun LoginScreen(name: String, modifier: Modifier = Modifier) {
                 fontFamily = FontFamily(Font(R.font.pretendard_bold)),
                 textAlign = TextAlign.Center,
             )
+        }
+    }
+}
+
+fun loginValidate (
+    context: android.content.Context,
+    emailInput: String,
+    pwInput: String,
+    registeredEmail: String,
+    registeredPw: String
+) {
+    when {
+        // 회원가입 정보가 없을 때
+        registeredEmail.isEmpty() || registeredPw.isEmpty() -> {
+            Toast.makeText(context, "먼저 회원가입을 진행해 주세요", Toast.LENGTH_SHORT).show()
+        }
+        // 이메일 또는 비밀번호 불일치
+        emailInput != registeredEmail || pwInput != registeredPw -> {
+            Toast.makeText(context, "이메일 또는 비밀번호가 올바르지 않습니다", Toast.LENGTH_SHORT).show()
+        }
+        // 로그인 성공
+        else -> {
+            Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
+            val intent = Intent(context, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            context.startActivity(intent)
         }
     }
 }
