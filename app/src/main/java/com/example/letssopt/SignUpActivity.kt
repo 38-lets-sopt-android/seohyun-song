@@ -282,7 +282,7 @@ fun SignUpScreen(name: String, modifier: Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-fun SignUpPreview() {
+private fun SignUpPreview() {
     LETSSOPTTheme {
         SignUpScreen("Android", modifier = Modifier)
     }
