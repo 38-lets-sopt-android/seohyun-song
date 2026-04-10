@@ -71,7 +71,7 @@ fun SignUpScreen(name: String, modifier: Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.Black)
+            .background(Color(0xFF141414))
             .padding(all = 20.dp),
     ) {
         // 로고
