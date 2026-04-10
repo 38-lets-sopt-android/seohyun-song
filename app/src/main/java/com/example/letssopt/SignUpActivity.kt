@@ -50,7 +50,7 @@ class SignUpActivity : ComponentActivity() {
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     SignUpScreen(
-                        name = "Android",
+                        "Android",
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -150,7 +150,6 @@ fun SignUpScreen(name: String, modifier: Modifier) {
             color = Color(0xFF999999),
             modifier = Modifier
                 .align(Alignment.Start)
-            //.padding(top = 36.dp),
         )
 
         Spacer(modifier = Modifier.height(3.dp))
@@ -194,7 +193,6 @@ fun SignUpScreen(name: String, modifier: Modifier) {
             color = Color(0xFF999999),
             modifier = Modifier
                 .align(Alignment.Start)
-            //.padding(top = 36.dp),
         )
 
         Spacer(modifier = Modifier.height(3.dp))
@@ -253,7 +251,7 @@ fun SignUpScreen(name: String, modifier: Modifier) {
                             putExtra("password", pwInput)
                         }
                         (context as Activity).setResult(Activity.RESULT_OK, resultIntent)
-                        (context as Activity).finish()
+                        context.finish()
                     }
                 }
             },

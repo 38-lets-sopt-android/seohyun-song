@@ -56,7 +56,7 @@ class LoginActivity : ComponentActivity() {
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     LoginScreen(
-                        name = "Android",
+                        "Android",
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -165,7 +165,6 @@ fun LoginScreen(name: String, modifier: Modifier = Modifier) {
             color = Color(0xFF999999),
             modifier = Modifier
                 .align(Alignment.Start)
-                //.padding(top = 36.dp),
         )
 
         Spacer(modifier = Modifier.height(3.dp))
@@ -209,7 +208,6 @@ fun LoginScreen(name: String, modifier: Modifier = Modifier) {
             color = Color(0xFF999999),
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                // .padding(top = 200.dp)
                 .clickable(onClick = {
                     val intent = Intent(context,SignUpActivity::class.java)
                     signUpLauncher.launch(intent)
