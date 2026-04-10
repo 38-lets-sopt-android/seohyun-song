@@ -48,7 +48,7 @@ import androidx.compose.ui.unit.sp
 import com.example.letssopt.ui.theme.LETSSOPTTheme
 import kotlin.jvm.java
 
-class MainActivity : ComponentActivity() {
+class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -233,6 +233,10 @@ fun LoginScreen(name: String, modifier: Modifier = Modifier) {
                     // 로그인 성공
                     else -> {
                         Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(context, MainActivity::class.java).apply {
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        }
+                        context.startActivity(intent)
                     }
                 }
             },
