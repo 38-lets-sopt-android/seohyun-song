@@ -80,6 +80,7 @@ fun HomeScreen(
 ) {
     val viewModel: ContentViewModel = viewModel()
     val newContentsDisplay = viewModel.contents.take(3)
+    val watGorithm = viewModel.contents.drop(3).take(4)
 
     Scaffold(
         topBar = {
@@ -173,12 +174,58 @@ fun HomeScreen(
             )
             Spacer(Modifier.height(24.dp))
             LazyRow(
-                modifier = Modifier.padding(bottom = 10.dp),
                 contentPadding = PaddingValues(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(15.dp)
             ) {
                 items(newContentsDisplay) { content ->
                     NewContentItem(
+                        title = content.title,
+                        time = content.time,
+                        imageRes = content.imageRes
+                    )
+                }
+            }
+            Spacer(Modifier.height(26.dp))
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_section_title),
+                    contentDescription = "왓고리즘",
+                    modifier = Modifier
+                        .width(80.dp)
+                        .height(26.dp)
+                )
+                Spacer(Modifier.height(4.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "예능부터 드라마까지!",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = FontFamily(Font(R.font.pretendard_bold)),
+                        color = Color(0xFF999999),
+                    )
+                    Text(
+                        text = "더보기",
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Normal,
+                        fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                        color = Color(0xFF999999)
+                    )
+                }
+            }
+            Spacer(Modifier.height(6.dp))
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                contentPadding = PaddingValues(horizontal = 8.dp),
+            ) {
+                items(watGorithm) { content ->
+                    WatGorithmItem (
                         title = content.title,
                         time = content.time,
                         imageRes = content.imageRes
@@ -202,6 +249,23 @@ fun NewContentItem(
         modifier = Modifier
             .width(280.dp)
             .height(160.dp)
+            .clip(RoundedCornerShape(10.dp)),
+    )
+}
+
+@Composable
+fun WatGorithmItem(
+    title: String,
+    time: String,
+    imageRes: Int,
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(id = imageRes),
+        contentDescription = title,
+        modifier = Modifier
+            .width(100.dp)
+            .height(150.dp)
             .clip(RoundedCornerShape(10.dp)),
     )
 }
