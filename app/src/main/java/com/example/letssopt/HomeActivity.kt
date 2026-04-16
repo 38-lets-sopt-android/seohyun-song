@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -21,11 +20,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -40,7 +37,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -79,6 +75,7 @@ fun HomeScreen(
     modifier: Modifier = Modifier
 ) {
     val viewModel: ContentViewModel = viewModel()
+    val scrollState = rememberScrollState()
     val newContentsDisplay = viewModel.contents.take(3)
     val watGorithm = viewModel.contents.drop(3).take(4)
 
@@ -147,6 +144,7 @@ fun HomeScreen(
     ) { innerPadding ->
         Column(
             modifier = Modifier
+                .verticalScroll(state = scrollState)
                 .fillMaxSize()
                 .background(Color(0xFF141414))
                 .padding(innerPadding),
@@ -225,7 +223,43 @@ fun HomeScreen(
                 contentPadding = PaddingValues(horizontal = 8.dp),
             ) {
                 items(watGorithm) { content ->
-                    WatGorithmItem (
+                    ContentItem (
+                        title = content.title,
+                        time = content.time,
+                        imageRes = content.imageRes
+                    )
+                }
+            }
+            Spacer(Modifier.height(26.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "공개 예정 콘텐츠",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    fontFamily = FontFamily(Font(R.font.pretendard_bold)),
+                    color = Color.White,
+                )
+                Text(
+                    text = "더보기",
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Normal,
+                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                    color = Color(0xFF999999)
+                )
+            }
+            Spacer(Modifier.height(8.dp))
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                contentPadding = PaddingValues(horizontal = 8.dp),
+            ) {
+                items(watGorithm) { content ->
+                    ContentItem (
                         title = content.title,
                         time = content.time,
                         imageRes = content.imageRes
@@ -254,7 +288,7 @@ fun NewContentItem(
 }
 
 @Composable
-fun WatGorithmItem(
+fun ContentItem(
     title: String,
     time: String,
     imageRes: Int,
