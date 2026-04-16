@@ -35,6 +35,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -73,10 +77,7 @@ fun HomeScreen(
     modifier: Modifier = Modifier
 ) {
     val viewModel: ContentViewModel = viewModel()
-    val scrollState = rememberScrollState()
-    val newContentsDisplay = viewModel.contents.take(3)
-    val watGorithm = viewModel.contents.drop(3).take(4)
-    val watchaParty = viewModel.contents.drop(7).take(2)
+    var selectedTab by remember { mutableStateOf(0) }
 
     Scaffold(
         topBar = {
@@ -140,184 +141,198 @@ fun HomeScreen(
                     Row(
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .fillMaxWidth()
+                        modifier = Modifier.fillMaxHeight().fillMaxWidth()
                     ) {
-                        NavigationItem(R.drawable.ic_main, "홈")
-                        NavigationItem(R.drawable.ic_individual_purchase, "개별 구매")
-                        NavigationItem(R.drawable.ic_webtoon, "웹툰")
-                        NavigationItem(R.drawable.ic_search, "찾기")
-                        NavigationItem(R.drawable.ic_folder, "보관함")
+                        NavigationItem(R.drawable.ic_main, "홈", selectedTab == 0) { selectedTab = 0 }
+                        NavigationItem(R.drawable.ic_individual_purchase, "개별 구매", selectedTab == 1) { selectedTab = 1 }
+                        NavigationItem(R.drawable.ic_webtoon, "웹툰", selectedTab == 2) { selectedTab = 2 }
+                        NavigationItem(R.drawable.ic_search, "찾기", selectedTab == 3) { selectedTab = 3 }
+                        NavigationItem(R.drawable.ic_folder, "보관함", selectedTab == 4) { selectedTab = 4 }
                     }
                 },
                 containerColor = Color(0xFF141414)
             )
         }
     ) { innerPadding ->
+        when (selectedTab) {
+            0 -> HomeContent(innerPadding, viewModel)
+            1 -> PurchaseScreen(innerPadding)
+            2 -> WebtoonScreen(innerPadding)
+            3 -> SearchScreen(innerPadding)
+            4 -> FolderScreen(innerPadding)
+        }
+    }
+}
+
+@Composable
+fun HomeContent(innerPadding: PaddingValues, viewModel: ContentViewModel) {
+    val scrollState = rememberScrollState()
+    val newContentsDisplay = viewModel.contents.take(3)
+    val watGorithm = viewModel.contents.drop(3).take(4)
+    val watchaParty = viewModel.contents.drop(7).take(2)
+
+    Column(
+        modifier = Modifier
+            .verticalScroll(state = scrollState)
+            .fillMaxSize()
+            .background(Color(0xFF141414))
+            .padding(innerPadding),
+    ) {
+        Text(
+            text = "방금 막 도착한 신상 콘텐츠",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.SemiBold,
+            fontFamily = FontFamily(Font(R.font.pretendard_bold)),
+            color = Color.White,
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(start = 19.dp, top = 24.dp)
+        )
+        Spacer(Modifier.height(4.dp))
+        Text(
+            text = "예능부터 드라마까지!",
+            fontSize = 18.sp,
+            fontWeight = FontWeight.SemiBold,
+            fontFamily = FontFamily(Font(R.font.pretendard_bold)),
+            color = Color(0xFFBABAC1),
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(start = 19.dp)
+        )
+        Spacer(Modifier.height(24.dp))
+        LazyRow(
+            contentPadding = PaddingValues(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(15.dp)
+        ) {
+            items(newContentsDisplay) { content ->
+                NewContentItem(
+                    title = content.title,
+                    time = content.time,
+                    imageRes = content.imageRes
+                )
+            }
+        }
+        Spacer(Modifier.height(26.dp))
         Column(
             modifier = Modifier
-                .verticalScroll(state = scrollState)
-                .fillMaxSize()
-                .background(Color(0xFF141414))
-                .padding(innerPadding),
+                .padding(horizontal = 16.dp)
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_section_title),
+                contentDescription = "왓고리즘",
+                modifier = Modifier
+                    .width(80.dp)
+                    .height(26.dp)
+            )
+            Spacer(Modifier.height(4.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "예능부터 드라마까지!",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    fontFamily = FontFamily(Font(R.font.pretendard_bold)),
+                    color = Color(0xFF999999),
+                )
+                Text(
+                    text = "더보기",
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Normal,
+                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                    color = Color(0xFF999999)
+                )
+            }
+        }
+        Spacer(Modifier.height(6.dp))
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(horizontal = 8.dp),
+        ) {
+            items(watGorithm) { content ->
+                ContentItem (
+                    title = content.title,
+                    time = content.time,
+                    imageRes = content.imageRes
+                )
+            }
+        }
+        Spacer(Modifier.height(26.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "방금 막 도착한 신상 콘텐츠",
+                text = "공개 예정 콘텐츠",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
                 fontFamily = FontFamily(Font(R.font.pretendard_bold)),
                 color = Color.White,
-                modifier = Modifier
-                    .align(Alignment.Start)
-                    .padding(start = 19.dp, top = 24.dp)
             )
-            Spacer(Modifier.height(4.dp))
             Text(
-                text = "예능부터 드라마까지!",
-                fontSize = 18.sp,
+                text = "더보기",
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Normal,
+                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                color = Color(0xFF999999)
+            )
+        }
+        Spacer(Modifier.height(8.dp))
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(horizontal = 8.dp),
+        ) {
+            items(watGorithm) { content ->
+                ContentItem (
+                    title = content.title,
+                    time = content.time,
+                    imageRes = content.imageRes
+                )
+            }
+        }
+        Spacer(Modifier.height(26.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "왓챠 파티",
+                fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
                 fontFamily = FontFamily(Font(R.font.pretendard_bold)),
-                color = Color(0xFFBABAC1),
-                modifier = Modifier
-                    .align(Alignment.Start)
-                    .padding(start = 19.dp)
+                color = Color.White,
             )
-            Spacer(Modifier.height(24.dp))
-            LazyRow(
-                contentPadding = PaddingValues(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(15.dp)
-            ) {
-                items(newContentsDisplay) { content ->
-                    NewContentItem(
-                        title = content.title,
-                        time = content.time,
-                        imageRes = content.imageRes
-                    )
-                }
-            }
-            Spacer(Modifier.height(26.dp))
-            Column(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_section_title),
-                    contentDescription = "왓고리즘",
-                    modifier = Modifier
-                        .width(80.dp)
-                        .height(26.dp)
-                )
-                Spacer(Modifier.height(4.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "예능부터 드라마까지!",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        fontFamily = FontFamily(Font(R.font.pretendard_bold)),
-                        color = Color(0xFF999999),
-                    )
-                    Text(
-                        text = "더보기",
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Normal,
-                        fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                        color = Color(0xFF999999)
-                    )
-                }
-            }
-            Spacer(Modifier.height(6.dp))
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                contentPadding = PaddingValues(horizontal = 8.dp),
-            ) {
-                items(watGorithm) { content ->
-                    ContentItem (
-                        title = content.title,
-                        time = content.time,
-                        imageRes = content.imageRes
-                    )
-                }
-            }
-            Spacer(Modifier.height(26.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "공개 예정 콘텐츠",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    fontFamily = FontFamily(Font(R.font.pretendard_bold)),
-                    color = Color.White,
-                )
-                Text(
-                    text = "더보기",
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Normal,
-                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                    color = Color(0xFF999999)
-                )
-            }
-            Spacer(Modifier.height(8.dp))
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                contentPadding = PaddingValues(horizontal = 8.dp),
-            ) {
-                items(watGorithm) { content ->
-                    ContentItem (
-                        title = content.title,
-                        time = content.time,
-                        imageRes = content.imageRes
-                    )
-                }
-            }
-            Spacer(Modifier.height(26.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "왓챠 파티",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    fontFamily = FontFamily(Font(R.font.pretendard_bold)),
-                    color = Color.White,
-                )
-                Text(
-                    text = "더보기",
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Normal,
-                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                    color = Color(0xFF999999)
-                )
-            }
-            Spacer(Modifier.height(8.dp))
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                contentPadding = PaddingValues(horizontal = 8.dp),
-            ) {
-                items(watchaParty) {
-                    content ->
-                    WatchaPartyItem (
-                        title = content.title,
-                        time = content.time,
-                        imageRes = content.imageRes
-                    )
-                }
-            }
-            Spacer(Modifier.height(16.dp))
+            Text(
+                text = "더보기",
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Normal,
+                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                color = Color(0xFF999999)
+            )
         }
+        Spacer(Modifier.height(8.dp))
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(horizontal = 8.dp),
+        ) {
+            items(watchaParty) {
+                    content ->
+                WatchaPartyItem (
+                    title = content.title,
+                    time = content.time,
+                    imageRes = content.imageRes
+                )
+            }
+        }
+        Spacer(Modifier.height(16.dp))
     }
 }
 
@@ -411,9 +426,11 @@ fun WatchaPartyItem (
 }
 
 @Composable
-fun NavigationItem (icon: Int, text: String) {
+fun NavigationItem (icon: Int, text: String, isSelected: Boolean, onClick: () -> Unit) {
+    val iconColor = if (isSelected) Color.White else Color(0xFF333333)
+
     IconButton(
-        onClick = {},
+        onClick = onClick,
         modifier = Modifier.size(height = 50.dp, width = 48.dp)
     ) {
         Column(
@@ -423,7 +440,7 @@ fun NavigationItem (icon: Int, text: String) {
                 painter = painterResource(id = icon),
                 contentDescription = text,
                 modifier = Modifier.size(24.dp),
-                tint = Color.White
+                tint = iconColor
             )
             Spacer(Modifier.height(1.dp))
             Text(
@@ -431,7 +448,7 @@ fun NavigationItem (icon: Int, text: String) {
                 fontSize = 12.sp,
                 fontWeight = FontWeight.W400,
                 fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                color = Color.White,
+                color = iconColor,
             )
         }
     }
