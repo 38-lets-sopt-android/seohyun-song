@@ -53,6 +53,17 @@ class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val pref = getSharedPreferences("LoginPref", MODE_PRIVATE)
+        val savedEmail = pref.getString("email", "")
+        val savedPw = pref.getString("password", "")
+
+        if (!savedEmail.isNullOrEmpty() && !savedPw.isNullOrEmpty()) {
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         setContent {
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -267,8 +278,14 @@ fun loginValidate (
         }
         // 로그인 성공
         else -> {
+            context.getSharedPreferences("LoginPref", android.content.Context.MODE_PRIVATE)
+                .edit()
+                .putString("email", emailInput)
+                .putString("password", pwInput)
+                .apply()
+
             Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
-            val intent = Intent(context, MainActivity::class.java).apply {
+            val intent = Intent(context, HomeActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
             context.startActivity(intent)
