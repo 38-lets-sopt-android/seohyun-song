@@ -1,7 +1,6 @@
 package com.example.letssopt
 
 import android.os.Bundle
-import android.text.Layout
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -17,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -30,7 +30,6 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -56,11 +55,7 @@ class HomeActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LETSSOPTTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    HomeScreen(
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                HomeScreen()
             }
         }
     }
@@ -89,7 +84,7 @@ fun HomeScreen(
                 title = {Text(text = "")},
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(70.dp),
+                    .heightIn(70.dp),
                 actions = {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(14.dp),
@@ -136,14 +131,28 @@ fun HomeScreen(
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF141414)),
             )
         },
-
         bottomBar = {
             BottomAppBar(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.primary,
-            ) {
-                Text(text = "홈 화면")
-            }
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(72.dp),
+                actions = {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .fillMaxWidth()
+                    ) {
+                        NavigationItem(R.drawable.ic_main, "홈")
+                        NavigationItem(R.drawable.ic_individual_purchase, "개별 구매")
+                        NavigationItem(R.drawable.ic_webtoon, "웹툰")
+                        NavigationItem(R.drawable.ic_search, "찾기")
+                        NavigationItem(R.drawable.ic_folder, "보관함")
+                    }
+                },
+                containerColor = Color(0xFF141414)
+            )
         }
     ) { innerPadding ->
         Column(
@@ -353,7 +362,7 @@ fun WatchaPartyItem (
     imageRes: Int,
     modifier: Modifier = Modifier
 ) {
-    Box() {
+    Box {
         Column(
             modifier = Modifier
                 .background(Color(0xFF2A2A2A)),
@@ -396,6 +405,33 @@ fun WatchaPartyItem (
                 painter = painterResource(id = R.drawable.ic_noti_black),
                 contentDescription = "알림",
                 modifier = Modifier.size(18.dp),
+            )
+        }
+    }
+}
+
+@Composable
+fun NavigationItem (icon: Int, text: String) {
+    IconButton(
+        onClick = {},
+        modifier = Modifier.size(height = 50.dp, width = 48.dp)
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                painter = painterResource(id = icon),
+                contentDescription = text,
+                modifier = Modifier.size(24.dp),
+                tint = Color.White
+            )
+            Spacer(Modifier.height(1.dp))
+            Text(
+                text = text,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.W400,
+                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                color = Color.White,
             )
         }
     }
