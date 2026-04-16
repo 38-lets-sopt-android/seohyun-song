@@ -376,7 +376,7 @@ fun WatchaPartyItem (
                     .height(139.dp),
             )
             Text(
-                text = time,
+                text = "오늘 ${time}에 시작",
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Medium,
                 fontFamily = FontFamily(Font(R.font.pretendard_regular)),
