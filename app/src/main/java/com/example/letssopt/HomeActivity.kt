@@ -4,16 +4,25 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.outlined.Notifications
@@ -29,6 +38,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
@@ -69,6 +79,7 @@ fun HomeScreen(
     modifier: Modifier = Modifier
 ) {
     val viewModel: ContentViewModel = viewModel()
+    val newContentsDisplay = viewModel.contents.take(3)
 
     Scaffold(
         topBar = {
@@ -79,19 +90,27 @@ fun HomeScreen(
                     .height(70.dp),
                 actions = {
                     Row(
+                        horizontalArrangement = Arrangement.spacedBy(14.dp),
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxHeight()
                             .padding(end = 20.dp)
                     ) {
-                        IconButton(onClick = {}) {
+                        IconButton(
+                            onClick = {},
+                            modifier = Modifier.size(24.dp)
+                        ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_watch),
                                 contentDescription = "watch",
                                 modifier = Modifier.size(24.dp),
-                                tint = Color.White
+                                tint = Color.White,
                             )
                         }
-                        IconButton(onClick = {}) {
+                        IconButton(
+                            onClick = {},
+                            modifier = Modifier.size(24.dp)
+                        ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_noti),
                                 contentDescription = "noti",
@@ -99,7 +118,10 @@ fun HomeScreen(
                                 tint = Color.White
                             )
                         }
-                        IconButton(onClick = {}) {
+                        IconButton(
+                            onClick = {},
+                            modifier = Modifier.size(24.dp)
+                        ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_profile),
                                 contentDescription = "profile",
@@ -127,7 +149,6 @@ fun HomeScreen(
                 .fillMaxSize()
                 .background(Color(0xFF141414))
                 .padding(innerPadding),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Text(
                 text = "방금 막 도착한 신상 콘텐츠",
@@ -137,10 +158,52 @@ fun HomeScreen(
                 color = Color.White,
                 modifier = Modifier
                     .align(Alignment.Start)
-                    .padding(top = 24.dp)
+                    .padding(start = 19.dp, top = 24.dp)
             )
+            Spacer(Modifier.height(4.dp))
+            Text(
+                text = "예능부터 드라마까지!",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold,
+                fontFamily = FontFamily(Font(R.font.pretendard_bold)),
+                color = Color(0xFFBABAC1),
+                modifier = Modifier
+                    .align(Alignment.Start)
+                    .padding(start = 19.dp)
+            )
+            Spacer(Modifier.height(24.dp))
+            LazyRow(
+                modifier = Modifier.padding(bottom = 10.dp),
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(15.dp)
+            ) {
+                items(newContentsDisplay) { content ->
+                    NewContentItem(
+                        title = content.title,
+                        time = content.time,
+                        imageRes = content.imageRes
+                    )
+                }
+            }
         }
     }
+}
+
+@Composable
+fun NewContentItem(
+    title: String,
+    time: String,
+    imageRes: Int,
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(id = imageRes),
+        contentDescription = title,
+        modifier = Modifier
+            .width(280.dp)
+            .height(160.dp)
+            .clip(RoundedCornerShape(10.dp)),
+    )
 }
 
 @Preview(showBackground = true)

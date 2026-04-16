@@ -10,6 +10,16 @@ class ContentViewModel: ViewModel() {
             imageRes = R.drawable.image_1
         ),
         Contents(
+            title = "폭싹 속았수다",
+            time = "오늘 23:00에 시작",
+            imageRes = R.drawable.image_1
+        ),
+        Contents(
+            title = "폭싹 속았수다",
+            time = "오늘 23:00에 시작",
+            imageRes = R.drawable.image_1
+        ),
+        Contents(
             title = "이 사랑 통역 되나요?",
             time = "오늘 12:00에 시작",
             imageRes = R.drawable.image_8
