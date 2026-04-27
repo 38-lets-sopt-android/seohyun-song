@@ -66,9 +66,14 @@ class HomeActivity : ComponentActivity() {
     }
 }
 
-data class Contents(
+data class WatchaPartyItem(
     val title: String,
     val time: String,
+    val imageRes: Int
+)
+
+data class ContentItem(
+    val title: String,
     val imageRes: Int
 )
 
@@ -77,7 +82,7 @@ data class Contents(
 fun HomeScreen(
     modifier: Modifier = Modifier
 ) {
-    val viewModel: ContentViewModel = viewModel()
+    val viewModel: HomeViewModel = viewModel()
     var selectedTab by remember { mutableIntStateOf(0) }
 
     Scaffold(
@@ -157,11 +162,8 @@ fun HomeScreen(
 }
 
 @Composable
-fun HomeContent(innerPadding: PaddingValues, viewModel: ContentViewModel) {
+fun HomeContent(innerPadding: PaddingValues, viewModel: HomeViewModel) {
     val scrollState = rememberScrollState()
-    val newContentsDisplay = viewModel.contents.take(3)
-    val watGorithm = viewModel.contents.drop(3).take(4)
-    val watchaParty = viewModel.contents.drop(7).take(2)
 
     Column(
         modifier = Modifier
@@ -196,11 +198,10 @@ fun HomeContent(innerPadding: PaddingValues, viewModel: ContentViewModel) {
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(newContentsDisplay) { content ->
-                NewContentItem(
+            items(viewModel.newContents) { content ->
+                NewContentCard (
                     title = content.title,
-                    time = content.time,
-                    imageRes = content.imageRes
+                    imageRes = content.imageRes,
                 )
             }
         }
@@ -243,10 +244,9 @@ fun HomeContent(innerPadding: PaddingValues, viewModel: ContentViewModel) {
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(horizontal = 8.dp),
         ) {
-            items(watGorithm) { content ->
-                ContentItem (
+            items(viewModel.watGorithm) { content ->
+                ContentCard (
                     title = content.title,
-                    time = content.time,
                     imageRes = content.imageRes
                 )
             }
@@ -279,10 +279,9 @@ fun HomeContent(innerPadding: PaddingValues, viewModel: ContentViewModel) {
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(horizontal = 8.dp),
         ) {
-            items(watGorithm) { content ->
-                ContentItem (
+            items(viewModel.upComing) { content ->
+                ContentCard (
                     title = content.title,
-                    time = content.time,
                     imageRes = content.imageRes
                 )
             }
@@ -315,9 +314,9 @@ fun HomeContent(innerPadding: PaddingValues, viewModel: ContentViewModel) {
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(horizontal = 8.dp),
         ) {
-            items(watchaParty) {
+            items(viewModel.watchaParty) {
                     content ->
-                WatchaPartyItem (
+                WatchaPartyCard (
                     title = content.title,
                     time = content.time,
                     imageRes = content.imageRes
@@ -329,9 +328,8 @@ fun HomeContent(innerPadding: PaddingValues, viewModel: ContentViewModel) {
 }
 
 @Composable
-fun NewContentItem(
+fun NewContentCard(
     title: String,
-    time: String,
     imageRes: Int,
     modifier: Modifier = Modifier
 ) {
@@ -346,9 +344,8 @@ fun NewContentItem(
 }
 
 @Composable
-fun ContentItem(
+fun ContentCard(
     title: String,
-    time: String,
     imageRes: Int,
     modifier: Modifier = Modifier
 ) {
@@ -363,7 +360,7 @@ fun ContentItem(
 }
 
 @Composable
-fun WatchaPartyItem (
+fun WatchaPartyCard (
     title: String,
     time: String,
     imageRes: Int,
