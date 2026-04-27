@@ -1,6 +1,7 @@
 package com.example.letssopt
 
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -18,11 +19,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialogDefaults.containerColor
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -46,6 +44,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.edit
 import com.example.letssopt.ui.theme.LETSSOPTTheme
 import kotlin.jvm.java
 
@@ -68,7 +67,6 @@ class LoginActivity : ComponentActivity() {
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     LoginScreen(
-                        "Android",
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -78,7 +76,7 @@ class LoginActivity : ComponentActivity() {
 }
 
 @Composable
-fun LoginScreen(name: String, modifier: Modifier = Modifier) {
+fun LoginScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     var emailInput by remember { mutableStateOf("") }
     var pwInput by remember { mutableStateOf("") }
@@ -260,7 +258,7 @@ fun LoginScreen(name: String, modifier: Modifier = Modifier) {
     }
 }
 
-fun loginValidate (
+private fun loginValidate (
     context: android.content.Context,
     emailInput: String,
     pwInput: String,
@@ -278,11 +276,10 @@ fun loginValidate (
         }
         // 로그인 성공
         else -> {
-            context.getSharedPreferences("LoginPref", android.content.Context.MODE_PRIVATE)
-                .edit()
-                .putString("email", emailInput)
-                .putString("password", pwInput)
-                .apply()
+            context.getSharedPreferences("LoginPref", Context.MODE_PRIVATE).edit {
+                putString("email", emailInput)
+                putString("password", pwInput)
+            }
 
             Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
             val intent = Intent(context, HomeActivity::class.java).apply {
@@ -297,6 +294,6 @@ fun loginValidate (
 @Composable
 private fun LoginScreenPreview() {
     LETSSOPTTheme {
-        LoginScreen("Android")
+        LoginScreen()
     }
 }

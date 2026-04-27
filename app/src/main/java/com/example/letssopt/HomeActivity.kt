@@ -36,7 +36,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -77,7 +77,7 @@ fun HomeScreen(
     modifier: Modifier = Modifier
 ) {
     val viewModel: ContentViewModel = viewModel()
-    var selectedTab by remember { mutableStateOf(0) }
+    var selectedTab by remember { mutableIntStateOf(0) }
 
     Scaffold(
         topBar = {
@@ -141,9 +141,9 @@ fun HomeScreen(
                     Row(
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxHeight().fillMaxWidth()
+                        modifier = Modifier.fillMaxSize()
                     ) {
-                        NavigationItem(R.drawable.ic_main, "홈", selectedTab == 0) { selectedTab = 0 }
+                        NavigationItem(R.drawable.ic_main, "메인", selectedTab == 0) { selectedTab = 0 }
                         NavigationItem(R.drawable.ic_individual_purchase, "개별 구매", selectedTab == 1) { selectedTab = 1 }
                         NavigationItem(R.drawable.ic_webtoon, "웹툰", selectedTab == 2) { selectedTab = 2 }
                         NavigationItem(R.drawable.ic_search, "찾기", selectedTab == 3) { selectedTab = 3 }
@@ -202,7 +202,7 @@ fun HomeContent(innerPadding: PaddingValues, viewModel: ContentViewModel) {
         Spacer(Modifier.height(24.dp))
         LazyRow(
             contentPadding = PaddingValues(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(15.dp)
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(newContentsDisplay) { content ->
                 NewContentItem(
@@ -442,7 +442,7 @@ fun NavigationItem (icon: Int, text: String, isSelected: Boolean, onClick: () ->
                 modifier = Modifier.size(24.dp),
                 tint = iconColor
             )
-            Spacer(Modifier.height(1.dp))
+            Spacer(Modifier.height(7.dp))
             Text(
                 text = text,
                 fontSize = 12.sp,
@@ -456,7 +456,7 @@ fun NavigationItem (icon: Int, text: String, isSelected: Boolean, onClick: () ->
 
 @Preview(showBackground = true)
 @Composable
-private fun LoginScreenPreview() {
+private fun HomeScreenPreview() {
     LETSSOPTTheme {
         HomeScreen()
     }
