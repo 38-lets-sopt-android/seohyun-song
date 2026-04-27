@@ -86,6 +86,7 @@ fun HomeScreen(
     var selectedTab by remember { mutableIntStateOf(0) }
 
     Scaffold(
+        modifier = modifier,
         topBar = {
             TopAppBar(
                 title = {Text(text = "")},
@@ -336,7 +337,7 @@ fun NewContentCard(
     Image(
         painter = painterResource(id = imageRes),
         contentDescription = title,
-        modifier = Modifier
+        modifier = modifier
             .width(280.dp)
             .height(160.dp)
             .clip(RoundedCornerShape(10.dp)),
@@ -352,7 +353,7 @@ fun ContentCard(
     Image(
         painter = painterResource(id = imageRes),
         contentDescription = title,
-        modifier = Modifier
+        modifier = modifier
             .width(100.dp)
             .height(150.dp)
             .clip(RoundedCornerShape(10.dp)),
@@ -368,7 +369,7 @@ fun WatchaPartyCard (
 ) {
     Box {
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .background(Color(0xFF2A2A2A)),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
