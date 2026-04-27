@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,7 +31,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -94,39 +95,30 @@ fun HomeScreen(
                             .fillMaxHeight()
                             .padding(end = 20.dp)
                     ) {
-                        IconButton(
-                            onClick = {},
-                            modifier = Modifier.size(24.dp)
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_watch),
-                                contentDescription = "watch",
-                                modifier = Modifier.size(24.dp),
-                                tint = Color.White,
-                            )
-                        }
-                        IconButton(
-                            onClick = {},
-                            modifier = Modifier.size(24.dp)
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_noti),
-                                contentDescription = "noti",
-                                modifier = Modifier.size(24.dp),
-                                tint = Color.White
-                            )
-                        }
-                        IconButton(
-                            onClick = {},
-                            modifier = Modifier.size(24.dp)
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_profile),
-                                contentDescription = "profile",
-                                modifier = Modifier.size(24.dp),
-                                tint = Color.White
-                            )
-                        }
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_watch),
+                            contentDescription = "watch",
+                            modifier = Modifier
+                                .size(24.dp)
+                                .clickable(onClick = {}),
+                            tint = Color.White,
+                        )
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_noti),
+                            contentDescription = "noti",
+                            modifier = Modifier
+                                .size(24.dp)
+                                .clickable(onClick = {}),
+                            tint = Color.White,
+                        )
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_profile),
+                            contentDescription = "profile",
+                            modifier = Modifier
+                                .size(24.dp)
+                                .clickable(onClick = {}),
+                            tint = Color.White
+                        )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF141414)),
@@ -426,31 +418,32 @@ fun WatchaPartyItem (
 }
 
 @Composable
-fun NavigationItem (icon: Int, text: String, isSelected: Boolean, onClick: () -> Unit) {
+fun NavigationItem(icon: Int, text: String, isSelected: Boolean, onClick: () -> Unit) {
     val iconColor = if (isSelected) Color.White else Color(0xFF333333)
 
-    IconButton(
-        onClick = onClick,
-        modifier = Modifier.size(height = 50.dp, width = 48.dp)
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .size(width = 48.dp, height = 50.dp)
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                onClick = onClick
+            )
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Icon(
-                painter = painterResource(id = icon),
-                contentDescription = text,
-                modifier = Modifier.size(24.dp),
-                tint = iconColor
-            )
-            Spacer(Modifier.height(7.dp))
-            Text(
-                text = text,
-                fontSize = 12.sp,
-                fontWeight = FontWeight.W400,
-                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                color = iconColor,
-            )
-        }
+        Icon(
+            painter = painterResource(id = icon),
+            contentDescription = text,
+            modifier = Modifier.size(24.dp),
+            tint = iconColor
+        )
+        Spacer(Modifier.height(7.dp))
+        Text(
+            text = text,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.W400,
+            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+            color = iconColor,
+        )
     }
 }
 
