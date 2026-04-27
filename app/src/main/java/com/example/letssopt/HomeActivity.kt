@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,11 +23,10 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -165,72 +165,110 @@ fun HomeScreen(
 
 @Composable
 fun HomeContent(innerPadding: PaddingValues, viewModel: HomeViewModel) {
-    val scrollState = rememberScrollState()
-
-    Column(
+    LazyColumn(
         modifier = Modifier
-            .verticalScroll(state = scrollState)
             .fillMaxSize()
             .background(Color(0xFF141414))
             .padding(innerPadding),
     ) {
-        Text(
-            text = "방금 막 도착한 신상 콘텐츠",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.SemiBold,
-            fontFamily = FontFamily(Font(R.font.pretendard_bold)),
-            color = Color.White,
-            modifier = Modifier
-                .align(Alignment.Start)
-                .padding(start = 19.dp, top = 24.dp)
-        )
-        Spacer(Modifier.height(4.dp))
-        Text(
-            text = "예능부터 드라마까지!",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.SemiBold,
-            fontFamily = FontFamily(Font(R.font.pretendard_bold)),
-            color = Color(0xFFBABAC1),
-            modifier = Modifier
-                .align(Alignment.Start)
-                .padding(start = 19.dp)
-        )
-        Spacer(Modifier.height(24.dp))
-        LazyRow(
-            contentPadding = PaddingValues(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(viewModel.newContents) { content ->
-                NewContentCard (
-                    title = content.title,
-                    imageRes = content.imageRes,
-                )
-            }
-        }
-        Spacer(Modifier.height(26.dp))
-        Column(
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_section_title),
-                contentDescription = "왓고리즘",
+        item{
+            Text(
+                text = "방금 막 도착한 신상 콘텐츠",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold,
+                fontFamily = FontFamily(Font(R.font.pretendard_bold)),
+                color = Color.White,
                 modifier = Modifier
-                    .width(80.dp)
-                    .height(26.dp)
+                    .padding(start = 19.dp, top = 24.dp)
             )
             Spacer(Modifier.height(4.dp))
+            Text(
+                text = "예능부터 드라마까지!",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold,
+                fontFamily = FontFamily(Font(R.font.pretendard_bold)),
+                color = Color(0xFFBABAC1),
+                modifier = Modifier
+                    .padding(start = 19.dp)
+            )
+            Spacer(Modifier.height(24.dp))
+            LazyRow(
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(viewModel.newContents) { content ->
+                    NewContentCard (
+                        title = content.title,
+                        imageRes = content.imageRes,
+                    )
+                }
+            }
+            Spacer(Modifier.height(26.dp))
+        }
+
+        item {
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_section_title),
+                    contentDescription = "왓고리즘",
+                    modifier = Modifier
+                        .width(80.dp)
+                        .height(26.dp)
+                )
+                Spacer(Modifier.height(4.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "예능부터 드라마까지!",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = FontFamily(Font(R.font.pretendard_bold)),
+                        color = Color(0xFF999999),
+                    )
+                    Text(
+                        text = "더보기",
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Normal,
+                        fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                        color = Color(0xFF999999)
+                    )
+                }
+            }
+            Spacer(Modifier.height(6.dp))
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                contentPadding = PaddingValues(horizontal = 8.dp),
+            ) {
+                items(viewModel.watGorithm) { content ->
+                    ContentCard (
+                        title = content.title,
+                        imageRes = content.imageRes
+                    )
+                }
+            }
+            Spacer(Modifier.height(26.dp))
+        }
+
+        item {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "예능부터 드라마까지!",
+                    text = "공개 예정 콘텐츠",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
                     fontFamily = FontFamily(Font(R.font.pretendard_bold)),
-                    color = Color(0xFF999999),
+                    color = Color.White,
                 )
                 Text(
                     text = "더보기",
@@ -240,92 +278,60 @@ fun HomeContent(innerPadding: PaddingValues, viewModel: HomeViewModel) {
                     color = Color(0xFF999999)
                 )
             }
+            Spacer(Modifier.height(8.dp))
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                contentPadding = PaddingValues(horizontal = 8.dp),
+            ) {
+                items(viewModel.upComing) { content ->
+                    ContentCard (
+                        title = content.title,
+                        imageRes = content.imageRes
+                    )
+                }
+            }
+            Spacer(Modifier.height(26.dp))
         }
-        Spacer(Modifier.height(6.dp))
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(horizontal = 8.dp),
-        ) {
-            items(viewModel.watGorithm) { content ->
-                ContentCard (
-                    title = content.title,
-                    imageRes = content.imageRes
+
+        item {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "왓챠 파티",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    fontFamily = FontFamily(Font(R.font.pretendard_bold)),
+                    color = Color.White,
+                )
+                Text(
+                    text = "더보기",
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Normal,
+                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                    color = Color(0xFF999999)
                 )
             }
-        }
-        Spacer(Modifier.height(26.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "공개 예정 콘텐츠",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.SemiBold,
-                fontFamily = FontFamily(Font(R.font.pretendard_bold)),
-                color = Color.White,
-            )
-            Text(
-                text = "더보기",
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Normal,
-                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                color = Color(0xFF999999)
-            )
-        }
-        Spacer(Modifier.height(8.dp))
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(horizontal = 8.dp),
-        ) {
-            items(viewModel.upComing) { content ->
-                ContentCard (
-                    title = content.title,
-                    imageRes = content.imageRes
-                )
+            Spacer(Modifier.height(8.dp))
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                contentPadding = PaddingValues(horizontal = 8.dp),
+            ) {
+                items(viewModel.watchaParty) {
+                        content ->
+                    WatchaPartyCard (
+                        title = content.title,
+                        time = content.time,
+                        imageRes = content.imageRes
+                    )
+                }
             }
+            Spacer(Modifier.height(16.dp))
         }
-        Spacer(Modifier.height(26.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "왓챠 파티",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.SemiBold,
-                fontFamily = FontFamily(Font(R.font.pretendard_bold)),
-                color = Color.White,
-            )
-            Text(
-                text = "더보기",
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Normal,
-                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                color = Color(0xFF999999)
-            )
-        }
-        Spacer(Modifier.height(8.dp))
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(horizontal = 8.dp),
-        ) {
-            items(viewModel.watchaParty) {
-                    content ->
-                WatchaPartyCard (
-                    title = content.title,
-                    time = content.time,
-                    imageRes = content.imageRes
-                )
-            }
-        }
-        Spacer(Modifier.height(16.dp))
     }
 }
 
@@ -340,7 +346,7 @@ fun NewContentCard(
         contentDescription = title,
         modifier = modifier
             .width(280.dp)
-            .height(160.dp)
+            .aspectRatio(1.75f)
             .clip(RoundedCornerShape(10.dp)),
     )
 }
@@ -356,7 +362,7 @@ fun ContentCard(
         contentDescription = title,
         modifier = modifier
             .width(100.dp)
-            .height(150.dp)
+            .aspectRatio(100f / 150f)
             .clip(RoundedCornerShape(10.dp)),
     )
 }
@@ -379,7 +385,7 @@ fun WatchaPartyCard (
                 contentDescription = title,
                 modifier = Modifier
                     .width(196.dp)
-                    .height(139.dp),
+                    .aspectRatio(196f/ 139f),
             )
             Text(
                 text = "오늘 ${time}에 시작",
