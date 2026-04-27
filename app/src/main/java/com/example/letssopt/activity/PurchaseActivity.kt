@@ -1,4 +1,4 @@
-package com.example.letssopt
+package com.example.letssopt.activity
 
 
 import android.os.Bundle
@@ -20,16 +20,17 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.letssopt.R
 import com.example.letssopt.ui.theme.LETSSOPTTheme
 
-class FolderActivity : ComponentActivity() {
+class PurchaseActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    FolderScreen(innerPadding)
+                    PurchaseScreen(innerPadding)
                 }
             }
         }
@@ -37,7 +38,7 @@ class FolderActivity : ComponentActivity() {
 }
 
 @Composable
-fun FolderScreen(innerPadding: PaddingValues) {
+fun PurchaseScreen(innerPadding: PaddingValues) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -46,7 +47,7 @@ fun FolderScreen(innerPadding: PaddingValues) {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "보관함 화면",
+            text = "개별 구매 화면",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             fontFamily = FontFamily(Font(R.font.pretendard_bold)),

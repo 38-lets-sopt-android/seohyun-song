@@ -1,4 +1,4 @@
-package com.example.letssopt
+package com.example.letssopt.activity
 
 
 import android.os.Bundle
@@ -20,16 +20,17 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.letssopt.R
 import com.example.letssopt.ui.theme.LETSSOPTTheme
 
-class PurchaseActivity : ComponentActivity() {
+class WebtoonActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    PurchaseScreen(innerPadding)
+                    WebtoonScreen(innerPadding)
                 }
             }
         }
@@ -37,7 +38,7 @@ class PurchaseActivity : ComponentActivity() {
 }
 
 @Composable
-fun PurchaseScreen(innerPadding: PaddingValues) {
+fun WebtoonScreen(innerPadding: PaddingValues) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -46,7 +47,7 @@ fun PurchaseScreen(innerPadding: PaddingValues) {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "개별 구매 화면",
+            text = "웹툰 화면",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             fontFamily = FontFamily(Font(R.font.pretendard_bold)),

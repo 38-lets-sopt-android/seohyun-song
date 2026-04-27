@@ -1,6 +1,8 @@
 package com.example.letssopt
 
 import androidx.lifecycle.ViewModel
+import com.example.letssopt.activity.ContentItem
+import com.example.letssopt.activity.WatchaPartyItem
 
 class HomeViewModel : ViewModel() {
 

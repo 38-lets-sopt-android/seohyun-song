@@ -1,4 +1,4 @@
-package com.example.letssopt
+package com.example.letssopt.activity
 
 
 import android.os.Bundle
@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.letssopt.R
 import com.example.letssopt.ui.theme.LETSSOPTTheme
 
 class SearchActivity : ComponentActivity() {
