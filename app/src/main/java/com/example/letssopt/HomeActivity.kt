@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomAppBar
@@ -44,7 +43,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -102,7 +103,7 @@ fun HomeScreen(
                             .padding(end = 20.dp)
                     ) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_watch),
+                            painter = painterResource(id = R.drawable.ic_home_watch),
                             contentDescription = "watch",
                             modifier = Modifier
                                 .size(24.dp)
@@ -110,7 +111,7 @@ fun HomeScreen(
                             tint = Color.White,
                         )
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_noti),
+                            painter = painterResource(id = R.drawable.ic_home_noti),
                             contentDescription = "noti",
                             modifier = Modifier
                                 .size(24.dp)
@@ -118,7 +119,7 @@ fun HomeScreen(
                             tint = Color.White,
                         )
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_profile),
+                            painter = painterResource(id = R.drawable.ic_home_profile),
                             contentDescription = "profile",
                             modifier = Modifier
                                 .size(24.dp)
@@ -141,11 +142,11 @@ fun HomeScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        NavigationItem(R.drawable.ic_main, "메인", selectedTab == 0) { selectedTab = 0 }
-                        NavigationItem(R.drawable.ic_individual_purchase, "개별 구매", selectedTab == 1) { selectedTab = 1 }
-                        NavigationItem(R.drawable.ic_webtoon, "웹툰", selectedTab == 2) { selectedTab = 2 }
-                        NavigationItem(R.drawable.ic_search, "찾기", selectedTab == 3) { selectedTab = 3 }
-                        NavigationItem(R.drawable.ic_folder, "보관함", selectedTab == 4) { selectedTab = 4 }
+                        NavigationItem(R.drawable.ic_bottom_bar_main, "메인", selectedTab == 0) { selectedTab = 0 }
+                        NavigationItem(R.drawable.ic_bottom_bar_individual_purchase, "개별 구매", selectedTab == 1) { selectedTab = 1 }
+                        NavigationItem(R.drawable.ic_bottom_bar_webtoon, "웹툰", selectedTab == 2) { selectedTab = 2 }
+                        NavigationItem(R.drawable.ic_bottom_bar_search, "찾기", selectedTab == 3) { selectedTab = 3 }
+                        NavigationItem(R.drawable.ic_bottom_bar_folder, "보관함", selectedTab == 4) { selectedTab = 4 }
                     }
                 },
                 containerColor = Color(0xFF141414)
@@ -397,21 +398,15 @@ fun WatchaPartyCard (
                 modifier = Modifier.padding(start = 8.dp)
             )
         }
-        Box(
+        Icon(
+            imageVector = ImageVector.vectorResource(R.drawable.ic_home_notisetting),
+            contentDescription = "알림 설정",
+            tint = Color.Unspecified,
             modifier = Modifier
+                .size(35.dp)
                 .align(Alignment.TopEnd)
                 .padding(top = 7.dp, end = 5.dp)
-                .size(35.dp)
-                .clip(CircleShape)
-                .background(Color.White),
-            contentAlignment = Alignment.Center
-            ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_noti_black),
-                contentDescription = "알림",
-                modifier = Modifier.size(18.dp),
-            )
-        }
+        )
     }
 }
 

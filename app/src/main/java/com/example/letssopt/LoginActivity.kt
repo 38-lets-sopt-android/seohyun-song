@@ -259,7 +259,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
 }
 
 private fun loginValidate (
-    context: android.content.Context,
+    context: Context,
     emailInput: String,
     pwInput: String,
     registeredEmail: String,
