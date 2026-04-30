@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LETSSOPT">
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.LETSSOPT">
@@ -23,7 +23,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".SignUpActivity" />
+        <activity android:name=".activity.SignUpActivity" />
+        <activity android:name=".activity.HomeActivity" />
+        <activity android:name=".activity.PurchaseActivity" />
+        <activity android:name=".activity.WebtoonActivity" />
+        <activity android:name=".activity.SearchActivity" />
+        <activity android:name=".activity.FolderActivity" />
     </application>
 
 </manifest>
