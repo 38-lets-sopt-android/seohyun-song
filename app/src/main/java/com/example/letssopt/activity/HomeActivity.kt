@@ -65,12 +65,10 @@ data class ContentItem(
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
-    navigateToPurchase: () -> Unit,
-    navigateToWebtoon: () -> Unit,
-    navigateToSearch: () -> Unit,
-    navigateToFolder: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var selectedTab by remember { mutableIntStateOf(0) }
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -127,18 +125,24 @@ fun HomeScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        NavigationItem(R.drawable.ic_bottom_bar_main, "메인", true) { }
-                        NavigationItem(R.drawable.ic_bottom_bar_individual_purchase, "개별 구매", false) { navigateToPurchase() }
-                        NavigationItem(R.drawable.ic_bottom_bar_webtoon, "웹툰", false) { navigateToWebtoon() }
-                        NavigationItem(R.drawable.ic_bottom_bar_search, "찾기", false) { navigateToSearch() }
-                        NavigationItem(R.drawable.ic_bottom_bar_folder, "보관함", false) { navigateToFolder() }
+                        NavigationItem(R.drawable.ic_bottom_bar_main, "메인", selectedTab == 0) { selectedTab = 0 }
+                        NavigationItem(R.drawable.ic_bottom_bar_individual_purchase, "개별 구매", selectedTab == 1) { selectedTab = 1 }
+                        NavigationItem(R.drawable.ic_bottom_bar_webtoon, "웹툰", selectedTab == 2) { selectedTab = 2 }
+                        NavigationItem(R.drawable.ic_bottom_bar_search, "찾기", selectedTab == 3) { selectedTab = 3 }
+                        NavigationItem(R.drawable.ic_bottom_bar_folder, "보관함", selectedTab == 4) { selectedTab = 4 }
                     }
                 },
                 containerColor = Color(0xFF141414)
             )
         }
     ) { innerPadding ->
-        HomeContent(innerPadding, viewModel)
+        when (selectedTab) {
+            0 -> HomeContent(innerPadding, viewModel)
+            1 -> PurchaseScreen()
+            2 -> WebtoonScreen()
+            3 -> SearchScreen()
+            4 -> FolderScreen()
+        }
     }
 }
 
@@ -320,10 +324,6 @@ private fun HomeScreenPreview() {
     LETSSOPTTheme {
         HomeScreen(
             viewModel = viewModel(),
-            navigateToPurchase = {},
-            navigateToWebtoon = {},
-            navigateToSearch = {},
-            navigateToFolder = {}
         )
     }
 }

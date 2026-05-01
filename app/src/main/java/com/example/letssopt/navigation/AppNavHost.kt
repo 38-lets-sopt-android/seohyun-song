@@ -71,33 +71,7 @@ fun AppNavHost(
         composable<Home> {
             val viewModel: HomeViewModel = viewModel()
 
-            HomeScreen(
-                viewModel = viewModel,
-                navigateToPurchase = {
-                    navController.navigate(Purchase)
-                },
-                navigateToWebtoon = {
-                    navController.navigate(Webtoon)
-                },
-                navigateToSearch = {
-                    navController.navigate(Search)
-                },
-                navigateToFolder = {
-                    navController.navigate(Folder)
-                }
-            )
-        }
-        composable<Purchase> {
-            PurchaseScreen()
-        }
-        composable<Webtoon> {
-            WebtoonScreen()
-        }
-        composable<Search> {
-            SearchScreen()
-        }
-        composable<Folder> {
-            FolderScreen()
+            HomeScreen(viewModel = viewModel)
         }
     }
 }
