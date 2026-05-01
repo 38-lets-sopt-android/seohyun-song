@@ -39,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.NavHost
@@ -53,7 +54,6 @@ import com.example.letssopt.component.ContentCard
 import com.example.letssopt.component.NewContentCard
 import com.example.letssopt.component.WatchaPartyCard
 import com.example.letssopt.navigation.Folder
-import com.example.letssopt.navigation.Home
 import com.example.letssopt.navigation.HomeTab
 import com.example.letssopt.navigation.Purchase
 import com.example.letssopt.navigation.Search
@@ -179,6 +179,11 @@ fun HomeScreen(
 
 @Composable
 fun HomeContent(innerPadding: PaddingValues, viewModel: HomeViewModel) {
+    val newContents by viewModel.newContents.collectAsStateWithLifecycle()
+    val watGorithm by viewModel.watGorithm.collectAsStateWithLifecycle()
+    val upComing by viewModel.upComing.collectAsStateWithLifecycle()
+    val watchaParty by viewModel.watchaParty.collectAsStateWithLifecycle()
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -210,7 +215,7 @@ fun HomeContent(innerPadding: PaddingValues, viewModel: HomeViewModel) {
                 contentPadding = PaddingValues(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                items(viewModel.newContents) { content ->
+                items(newContents) { content ->
                     NewContentCard (
                         title = content.title,
                         imageRes = content.imageRes,
@@ -259,7 +264,7 @@ fun HomeContent(innerPadding: PaddingValues, viewModel: HomeViewModel) {
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 contentPadding = PaddingValues(horizontal = 8.dp),
             ) {
-                items(viewModel.watGorithm) { content ->
+                items(watGorithm) { content ->
                     ContentCard (
                         title = content.title,
                         imageRes = content.imageRes
@@ -297,7 +302,7 @@ fun HomeContent(innerPadding: PaddingValues, viewModel: HomeViewModel) {
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 contentPadding = PaddingValues(horizontal = 8.dp),
             ) {
-                items(viewModel.upComing) { content ->
+                items(upComing) { content ->
                     ContentCard (
                         title = content.title,
                         imageRes = content.imageRes
@@ -335,7 +340,7 @@ fun HomeContent(innerPadding: PaddingValues, viewModel: HomeViewModel) {
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 contentPadding = PaddingValues(horizontal = 8.dp),
             ) {
-                items(viewModel.watchaParty) {
+                items(watchaParty) {
                         content ->
                     WatchaPartyCard (
                         title = content.title,
