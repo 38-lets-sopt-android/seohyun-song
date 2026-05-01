@@ -53,6 +53,7 @@ import com.example.letssopt.component.ContentCard
 import com.example.letssopt.component.NewContentCard
 import com.example.letssopt.component.WatchaPartyCard
 import com.example.letssopt.navigation.Folder
+import com.example.letssopt.navigation.Home
 import com.example.letssopt.navigation.HomeTab
 import com.example.letssopt.navigation.Purchase
 import com.example.letssopt.navigation.Search
@@ -83,47 +84,49 @@ fun HomeScreen(
     Scaffold(
         modifier = modifier,
         topBar = {
-            TopAppBar(
-                title = {Text(text = "")},
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(70.dp),
-                actions = {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(14.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .padding(end = 20.dp)
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_home_watch),
-                            contentDescription = "watch",
+            if (currentDestination?.hasRoute<HomeTab>() == true) {
+                TopAppBar(
+                    title = {Text(text = "")},
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(70.dp),
+                    actions = {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(14.dp),
+                            verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
-                                .size(24.dp)
-                                .clickable(onClick = {}),
-                            tint = Color.White,
-                        )
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_home_noti),
-                            contentDescription = "noti",
-                            modifier = Modifier
-                                .size(24.dp)
-                                .clickable(onClick = {}),
-                            tint = Color.White,
-                        )
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_home_profile),
-                            contentDescription = "profile",
-                            modifier = Modifier
-                                .size(24.dp)
-                                .clickable(onClick = {}),
-                            tint = Color.White
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF141414)),
-            )
+                                .fillMaxHeight()
+                                .padding(end = 20.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_home_watch),
+                                contentDescription = "watch",
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .clickable(onClick = {}),
+                                tint = Color.White,
+                            )
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_home_noti),
+                                contentDescription = "noti",
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .clickable(onClick = {}),
+                                tint = Color.White,
+                            )
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_home_profile),
+                                contentDescription = "profile",
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .clickable(onClick = {}),
+                                tint = Color.White
+                            )
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF141414)),
+                )
+            }
         },
         bottomBar = {
             BottomAppBar(
