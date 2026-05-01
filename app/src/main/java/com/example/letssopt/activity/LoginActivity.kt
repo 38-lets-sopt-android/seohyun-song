@@ -1,15 +1,12 @@
 package com.example.letssopt.activity
 
-import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -68,6 +65,10 @@ class LoginActivity : ComponentActivity() {
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     LoginScreen(
+                        registeredEmail = "",
+                        registeredPw = "",
+                        navigateToSignUp = {},
+                        navigateToHome = {},
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -77,22 +78,16 @@ class LoginActivity : ComponentActivity() {
 }
 
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier) {
+fun LoginScreen(
+    registeredEmail: String,
+    registeredPw: String,
+    navigateToSignUp: () -> Unit,
+    navigateToHome: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val context = LocalContext.current
     var emailInput by remember { mutableStateOf("") }
     var pwInput by remember { mutableStateOf("") }
-
-    var registeredEmail by remember { mutableStateOf("") }
-    var registeredPw by remember { mutableStateOf("") }
-
-    val signUpLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) { result -> 
-        if (result.resultCode == RESULT_OK) {
-            registeredEmail = result.data?.getStringExtra("email") ?: ""
-            registeredPw = result.data?.getStringExtra("password") ?: ""
-        }
-    }
 
     Column(
         modifier = modifier
@@ -220,8 +215,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .clickable(onClick = {
-                    val intent = Intent(context, SignUpActivity::class.java)
-                    signUpLauncher.launch(intent)
+                    navigateToSignUp()
                 })
         )
 
@@ -235,7 +229,8 @@ fun LoginScreen(modifier: Modifier = Modifier) {
                     emailInput = emailInput,
                     pwInput = pwInput,
                     registeredEmail = registeredEmail,
-                    registeredPw = registeredPw
+                    registeredPw = registeredPw,
+                    navigateToHome = navigateToHome
                 )
             },
             shape = RoundedCornerShape(8.dp),
@@ -264,7 +259,8 @@ private fun loginValidate (
     emailInput: String,
     pwInput: String,
     registeredEmail: String,
-    registeredPw: String
+    registeredPw: String,
+    navigateToHome: () -> Unit
 ) {
     when {
         // 회원가입 정보가 없을 때
@@ -283,10 +279,7 @@ private fun loginValidate (
             }
 
             Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
-            val intent = Intent(context, HomeActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
-            context.startActivity(intent)
+            navigateToHome()
         }
     }
 }
@@ -295,6 +288,11 @@ private fun loginValidate (
 @Composable
 private fun LoginScreenPreview() {
     LETSSOPTTheme {
-        LoginScreen()
+        LoginScreen(
+            registeredEmail = "sopt@gmail.com",
+            registeredPw = "sopt1234",
+            navigateToSignUp = {},
+            navigateToHome = {}
+        )
     }
 }
