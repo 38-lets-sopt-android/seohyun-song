@@ -14,14 +14,10 @@ data object SignUp
 @Serializable
 data object Home
 
-@Serializable
-data object Purchase
+sealed class MainTabRoute
 
-@Serializable
-data object Webtoon
-
-@Serializable
-data object Search
-
-@Serializable
-data object Folder
+@Serializable data object HomeTab : MainTabRoute()
+@Serializable data object Purchase : MainTabRoute()
+@Serializable data object Webtoon : MainTabRoute()
+@Serializable data object Search : MainTabRoute()
+@Serializable data object Folder : MainTabRoute()

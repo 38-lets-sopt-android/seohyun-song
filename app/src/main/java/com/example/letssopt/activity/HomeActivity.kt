@@ -1,5 +1,6 @@
 package com.example.letssopt.activity
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,9 +29,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,6 +40,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.example.letssopt.HomeViewModel
 import com.example.letssopt.R
 import com.example.letssopt.ui.theme.LETSSOPTTheme
@@ -49,6 +52,11 @@ import com.example.letssopt.component.NavigationItem
 import com.example.letssopt.component.ContentCard
 import com.example.letssopt.component.NewContentCard
 import com.example.letssopt.component.WatchaPartyCard
+import com.example.letssopt.navigation.Folder
+import com.example.letssopt.navigation.HomeTab
+import com.example.letssopt.navigation.Purchase
+import com.example.letssopt.navigation.Search
+import com.example.letssopt.navigation.Webtoon
 
 data class WatchaPartyItem(
     val title: String,
@@ -61,13 +69,16 @@ data class ContentItem(
     val imageRes: Int
 )
 
+@SuppressLint("RestrictedApi")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
     modifier: Modifier = Modifier
 ) {
-    var selectedTab by remember { mutableIntStateOf(0) }
+    val tabNavController = rememberNavController()
+    val navBackStackEntry by tabNavController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
 
     Scaffold(
         modifier = modifier,
@@ -125,23 +136,40 @@ fun HomeScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        NavigationItem(R.drawable.ic_bottom_bar_main, "메인", selectedTab == 0) { selectedTab = 0 }
-                        NavigationItem(R.drawable.ic_bottom_bar_individual_purchase, "개별 구매", selectedTab == 1) { selectedTab = 1 }
-                        NavigationItem(R.drawable.ic_bottom_bar_webtoon, "웹툰", selectedTab == 2) { selectedTab = 2 }
-                        NavigationItem(R.drawable.ic_bottom_bar_search, "찾기", selectedTab == 3) { selectedTab = 3 }
-                        NavigationItem(R.drawable.ic_bottom_bar_folder, "보관함", selectedTab == 4) { selectedTab = 4 }
+                        NavigationItem(R.drawable.ic_bottom_bar_main, "메인",
+                            currentDestination?.hasRoute<HomeTab>() == true
+                        ) { tabNavController.navigate(HomeTab) { launchSingleTop = true } }
+
+                        NavigationItem(R.drawable.ic_bottom_bar_individual_purchase, "개별 구매",
+                            currentDestination?.hasRoute<Purchase>() == true
+                        ) { tabNavController.navigate(Purchase) { launchSingleTop = true } }
+
+                        NavigationItem(R.drawable.ic_bottom_bar_webtoon, "웹툰",
+                            currentDestination?.hasRoute<Webtoon>() == true
+                        ) { tabNavController.navigate(Webtoon) { launchSingleTop = true } }
+
+                        NavigationItem(R.drawable.ic_bottom_bar_search, "찾기",
+                            currentDestination?.hasRoute<Search>() == true
+                        ) { tabNavController.navigate(Search) { launchSingleTop = true } }
+
+                        NavigationItem(R.drawable.ic_bottom_bar_folder, "보관함",
+                            currentDestination?.hasRoute<Folder>() == true
+                        ) { tabNavController.navigate(Folder) { launchSingleTop = true } }
                     }
                 },
                 containerColor = Color(0xFF141414)
             )
         }
     ) { innerPadding ->
-        when (selectedTab) {
-            0 -> HomeContent(innerPadding, viewModel)
-            1 -> PurchaseScreen()
-            2 -> WebtoonScreen()
-            3 -> SearchScreen()
-            4 -> FolderScreen()
+        NavHost(
+            navController = tabNavController,
+            startDestination = HomeTab
+        ) {
+            composable<HomeTab> { HomeContent(innerPadding, viewModel) }
+            composable<Purchase> { PurchaseScreen() }
+            composable<Webtoon> { WebtoonScreen() }
+            composable<Search> { SearchScreen() }
+            composable<Folder> { FolderScreen() }
         }
     }
 }

@@ -70,7 +70,6 @@ fun AppNavHost(
         }
         composable<Home> {
             val viewModel: HomeViewModel = viewModel()
-
             HomeScreen(viewModel = viewModel)
         }
     }
