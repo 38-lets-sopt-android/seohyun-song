@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import android.util.Patterns.EMAIL_ADDRESS
+import androidx.compose.foundation.layout.navigationBarsPadding
 import com.example.letssopt.R
 
 @Composable
@@ -52,7 +53,8 @@ fun SignUpScreen(
         modifier = modifier
             .fillMaxSize()
             .background(Color(0xFF141414))
-            .padding(horizontal = 20.dp),
+            .padding(horizontal = 20.dp)
+            .navigationBarsPadding(),
     ) {
         Text(
             text = "watcha",
