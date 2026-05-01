@@ -1,6 +1,5 @@
-package com.example.letssopt.activity
+package com.example.letssopt.presentation.signup
 
-import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -18,9 +17,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,21 +29,31 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import android.util.Patterns.EMAIL_ADDRESS
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.runtime.LaunchedEffect
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
 
 @Composable
 fun SignUpScreen(
     navigateToLogin: (String, String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: SignUpViewModel = viewModel()
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
-    var emailInput by remember { mutableStateOf("") }
-    var pwInput by remember { mutableStateOf("") }
-    var pwConfirm by remember { mutableStateOf("") }
 
-    val isButtonEnabled = emailInput.isNotBlank() && pwInput.isNotBlank() && pwConfirm.isNotBlank()
+    LaunchedEffect(Unit) {
+        viewModel.uiEvent.collect { event ->
+            when (event) {
+                is SignUpUiEvent.ShowToast ->
+                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                is SignUpUiEvent.NavigateToLogin ->
+                    navigateToLogin(event.email, event.password)
+            }
+        }
+    }
 
     Column(
         modifier = modifier
@@ -92,8 +98,8 @@ fun SignUpScreen(
         Spacer(modifier = Modifier.height(3.dp))
 
         TextField(
-            value = emailInput,
-            onValueChange = { emailInput = it },
+            value = uiState.emailInput,
+            onValueChange = { viewModel.onEmailChange(it) },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
             textStyle = TextStyle(
@@ -134,8 +140,8 @@ fun SignUpScreen(
         Spacer(modifier = Modifier.height(3.dp))
 
         TextField(
-            value = pwInput,
-            onValueChange = { pwInput = it },
+            value = uiState.pwInput,
+            onValueChange = { viewModel.onPasswordChange(it) },
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation(),
             shape = RoundedCornerShape(8.dp),
@@ -177,8 +183,8 @@ fun SignUpScreen(
         Spacer(modifier = Modifier.height(3.dp))
 
         TextField(
-            value = pwConfirm,
-            onValueChange = { pwConfirm = it },
+            value = uiState.pwConfirm,
+            onValueChange = { viewModel.onPasswordConfirmChange(it) },
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation(),
             shape = RoundedCornerShape(8.dp),
@@ -210,15 +216,9 @@ fun SignUpScreen(
 
         Button(
             onClick = {
-                signUpValidate(
-                    context = context,
-                    emailInput = emailInput,
-                    pwInput = pwInput,
-                    pwConfirm = pwConfirm,
-                    navigateToLogin = navigateToLogin
-                )
+                viewModel.signUp()
             },
-            enabled = isButtonEnabled,
+            enabled = uiState.isButtonEnabled,
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFFE8003C),
@@ -238,30 +238,6 @@ fun SignUpScreen(
                 fontFamily = FontFamily(Font(R.font.pretendard_bold)),
                 textAlign = TextAlign.Center,
             )
-        }
-    }
-}
-
-private fun signUpValidate(
-    context: Context,
-    emailInput: String,
-    pwInput: String,
-    pwConfirm: String,
-    navigateToLogin: (String, String) -> Unit
-) {
-    when {
-        !EMAIL_ADDRESS.matcher(emailInput).matches() -> {
-            Toast.makeText(context, "이메일 형식이 올바르지 않습니다", Toast.LENGTH_SHORT).show()
-        }
-        pwInput.length !in 8..12 -> {
-            Toast.makeText(context, "비밀번호는 8자 이상 12자 이하로 입력해 주세요", Toast.LENGTH_SHORT).show()
-        }
-        pwInput != pwConfirm -> {
-            Toast.makeText(context, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
-        }
-        else -> {
-            Toast.makeText(context, "회원가입에 성공했습니다", Toast.LENGTH_SHORT).show()
-            navigateToLogin(emailInput, pwInput) // ← setResult/finish 대신 람다 호출
         }
     }
 }

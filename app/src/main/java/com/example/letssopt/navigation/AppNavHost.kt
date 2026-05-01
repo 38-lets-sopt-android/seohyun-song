@@ -9,13 +9,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.example.letssopt.HomeViewModel
-import com.example.letssopt.activity.FolderScreen
 import com.example.letssopt.activity.HomeScreen
 import com.example.letssopt.activity.LoginScreen
-import com.example.letssopt.activity.PurchaseScreen
-import com.example.letssopt.activity.SearchScreen
-import com.example.letssopt.activity.SignUpScreen
-import com.example.letssopt.activity.WebtoonScreen
+import com.example.letssopt.presentation.signup.SignUpScreen
 
 @Composable
 fun AppNavHost(
