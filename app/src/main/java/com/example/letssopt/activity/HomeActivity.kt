@@ -1,9 +1,5 @@
 package com.example.letssopt.activity
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -54,18 +50,6 @@ import com.example.letssopt.component.ContentCard
 import com.example.letssopt.component.NewContentCard
 import com.example.letssopt.component.WatchaPartyCard
 
-class HomeActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            LETSSOPTTheme {
-                HomeScreen()
-            }
-        }
-    }
-}
-
 data class WatchaPartyItem(
     val title: String,
     val time: String,
@@ -80,11 +64,13 @@ data class ContentItem(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    viewModel: HomeViewModel,
+    navigateToPurchase: () -> Unit,
+    navigateToWebtoon: () -> Unit,
+    navigateToSearch: () -> Unit,
+    navigateToFolder: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val viewModel: HomeViewModel = viewModel()
-    var selectedTab by remember { mutableIntStateOf(0) }
-
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -141,24 +127,18 @@ fun HomeScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        NavigationItem(R.drawable.ic_bottom_bar_main, "메인", selectedTab == 0) { selectedTab = 0 }
-                        NavigationItem(R.drawable.ic_bottom_bar_individual_purchase, "개별 구매", selectedTab == 1) { selectedTab = 1 }
-                        NavigationItem(R.drawable.ic_bottom_bar_webtoon, "웹툰", selectedTab == 2) { selectedTab = 2 }
-                        NavigationItem(R.drawable.ic_bottom_bar_search, "찾기", selectedTab == 3) { selectedTab = 3 }
-                        NavigationItem(R.drawable.ic_bottom_bar_folder, "보관함", selectedTab == 4) { selectedTab = 4 }
+                        NavigationItem(R.drawable.ic_bottom_bar_main, "메인", true) { }
+                        NavigationItem(R.drawable.ic_bottom_bar_individual_purchase, "개별 구매", false) { navigateToPurchase() }
+                        NavigationItem(R.drawable.ic_bottom_bar_webtoon, "웹툰", false) { navigateToWebtoon() }
+                        NavigationItem(R.drawable.ic_bottom_bar_search, "찾기", false) { navigateToSearch() }
+                        NavigationItem(R.drawable.ic_bottom_bar_folder, "보관함", false) { navigateToFolder() }
                     }
                 },
                 containerColor = Color(0xFF141414)
             )
         }
     ) { innerPadding ->
-        when (selectedTab) {
-            0 -> HomeContent(innerPadding, viewModel)
-            1 -> PurchaseScreen(innerPadding)
-            2 -> WebtoonScreen(innerPadding)
-            3 -> SearchScreen(innerPadding)
-            4 -> FolderScreen(innerPadding)
-        }
+        HomeContent(innerPadding, viewModel)
     }
 }
 
@@ -338,6 +318,12 @@ fun HomeContent(innerPadding: PaddingValues, viewModel: HomeViewModel) {
 @Composable
 private fun HomeScreenPreview() {
     LETSSOPTTheme {
-        HomeScreen()
+        HomeScreen(
+            viewModel = viewModel(),
+            navigateToPurchase = {},
+            navigateToWebtoon = {},
+            navigateToSearch = {},
+            navigateToFolder = {}
+        )
     }
 }
