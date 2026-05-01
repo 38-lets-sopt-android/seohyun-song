@@ -1,6 +1,8 @@
 package com.example.letssopt.navigation
 
+import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -19,6 +21,18 @@ import com.example.letssopt.activity.WebtoonScreen
 fun AppNavHost(
     navController: NavHostController
 ) {
+    val context = LocalContext.current
+
+    val pref = context.getSharedPreferences("LoginPref", Context.MODE_PRIVATE)
+    val savedEmail = pref.getString("email", "")
+    val savedPw = pref.getString("password", "")
+
+    val startDestination = if (!savedEmail.isNullOrEmpty() && !savedPw.isNullOrEmpty()) {
+        Home
+    } else {
+        Login()
+    }
+
     NavHost(
         navController = navController,
         startDestination = Login()

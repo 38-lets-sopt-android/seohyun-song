@@ -46,37 +46,6 @@ import com.example.letssopt.R
 import com.example.letssopt.ui.theme.LETSSOPTTheme
 import kotlin.jvm.java
 
-class LoginActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-
-        val pref = getSharedPreferences("LoginPref", MODE_PRIVATE)
-        val savedEmail = pref.getString("email", "")
-        val savedPw = pref.getString("password", "")
-
-        if (!savedEmail.isNullOrEmpty() && !savedPw.isNullOrEmpty()) {
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-
-        setContent {
-            LETSSOPTTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    LoginScreen(
-                        registeredEmail = "",
-                        registeredPw = "",
-                        navigateToSignUp = {},
-                        navigateToHome = {},
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
-        }
-    }
-}
-
 @Composable
 fun LoginScreen(
     registeredEmail: String,
