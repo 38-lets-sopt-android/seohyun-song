@@ -1,12 +1,6 @@
 package com.example.letssopt.activity
 
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -20,15 +14,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,10 +33,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.edit
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
+import com.example.letssopt.presentation.login.LoginUiEvent
+import com.example.letssopt.presentation.login.LoginViewModel
 import com.example.letssopt.ui.theme.LETSSOPTTheme
-import kotlin.jvm.java
 
 @Composable
 fun LoginScreen(
@@ -53,11 +46,21 @@ fun LoginScreen(
     registeredPw: String,
     navigateToSignUp: () -> Unit,
     navigateToHome: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: LoginViewModel = viewModel()
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
-    var emailInput by remember { mutableStateOf("") }
-    var pwInput by remember { mutableStateOf("") }
+
+    LaunchedEffect(Unit) {
+        viewModel.uiEvent.collect { event ->
+            when (event) {
+                is LoginUiEvent.ShowToast ->
+                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                is LoginUiEvent.NavigateToHome -> navigateToHome()
+            }
+        }
+    }
 
     Column(
         modifier = modifier
@@ -105,8 +108,8 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(3.dp))
 
         TextField (
-            value = emailInput,
-            onValueChange = { emailInput = it },
+            value = uiState.emailInput,
+            onValueChange = { viewModel.onEmailChange(it) },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
             textStyle = TextStyle(
@@ -147,8 +150,8 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(3.dp))
 
         TextField (
-            value = pwInput,
-            onValueChange = { pwInput = it },
+            value = uiState.pwInput,
+            onValueChange = { viewModel.onPasswordChange(it) },
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation(),
             shape = RoundedCornerShape(8.dp),
@@ -195,13 +198,10 @@ fun LoginScreen(
         // 로그인 버튼
         Button(
             onClick = {
-                loginValidate(
+                viewModel.login(
                     context = context,
-                    emailInput = emailInput,
-                    pwInput = pwInput,
                     registeredEmail = registeredEmail,
-                    registeredPw = registeredPw,
-                    navigateToHome = navigateToHome
+                    registeredPw = registeredPw
                 )
             },
             shape = RoundedCornerShape(8.dp),
@@ -221,36 +221,6 @@ fun LoginScreen(
                 fontFamily = FontFamily(Font(R.font.pretendard_bold)),
                 textAlign = TextAlign.Center,
             )
-        }
-    }
-}
-
-private fun loginValidate (
-    context: Context,
-    emailInput: String,
-    pwInput: String,
-    registeredEmail: String,
-    registeredPw: String,
-    navigateToHome: () -> Unit
-) {
-    when {
-        // 회원가입 정보가 없을 때
-        registeredEmail.isEmpty() || registeredPw.isEmpty() -> {
-            Toast.makeText(context, "먼저 회원가입을 진행해 주세요", Toast.LENGTH_SHORT).show()
-        }
-        // 이메일 또는 비밀번호 불일치
-        emailInput != registeredEmail || pwInput != registeredPw -> {
-            Toast.makeText(context, "이메일 또는 비밀번호가 올바르지 않습니다", Toast.LENGTH_SHORT).show()
-        }
-        // 로그인 성공
-        else -> {
-            context.getSharedPreferences("LoginPref", Context.MODE_PRIVATE).edit {
-                putString("email", emailInput)
-                putString("password", pwInput)
-            }
-
-            Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
-            navigateToHome()
         }
     }
 }
