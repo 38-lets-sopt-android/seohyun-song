@@ -1,14 +1,28 @@
+import java.util.Properties
+import kotlin.apply
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
 }
+
+val properties =
+    Properties().apply {
+        load(project.rootProject.file("local.properties").inputStream())
+    }
 
 android {
     namespace = "com.example.letssopt"
     compileSdk {
         version = release(36)
+    }
+
+    buildFeatures {
+        compose = true
+        buildConfig = true
     }
 
     defaultConfig {
@@ -19,6 +33,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "BASE_URL", properties.getProperty("base.url"))
     }
 
     buildTypes {
@@ -55,6 +70,15 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+    implementation(libs.coil)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.retrofit.converter.kotlinx.serialization)
+    ksp(libs.androidx.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
