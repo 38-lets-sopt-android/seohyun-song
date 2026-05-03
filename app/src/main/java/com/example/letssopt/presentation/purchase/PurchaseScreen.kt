@@ -40,8 +40,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
 import com.example.letssopt.database.PurchaseDatabase
-import com.example.letssopt.presentation.purchase.PurchaseItem
-import com.example.letssopt.presentation.purchase.PurchaseViewModel
 
 @Composable
 fun PurchaseScreen(
