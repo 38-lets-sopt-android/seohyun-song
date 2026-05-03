@@ -1,4 +1,4 @@
-package com.example.letssopt.activity
+package com.example.letssopt.presentation.purchase
 
 
 import androidx.compose.foundation.Image
