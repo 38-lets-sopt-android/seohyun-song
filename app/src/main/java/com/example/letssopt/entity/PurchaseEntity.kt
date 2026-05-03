@@ -9,7 +9,7 @@ data class PurchaseList(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
 
-    @ColumnInfo(name = "user_name")
+    @ColumnInfo(name = "purchase_info")
     val title: String,
-    val imageRes: String
+    val imageRes: Int
 )

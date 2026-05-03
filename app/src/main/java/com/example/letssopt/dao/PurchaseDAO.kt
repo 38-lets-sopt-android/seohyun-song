@@ -12,5 +12,5 @@ interface PurchaseDAO {
     suspend fun insertPurchaseItems(item: PurchaseList)
 
     @Query("SELECT * FROM purchase")
-    fun getAllBuckets(): Flow<List<PurchaseList>>
+    fun getAllPurchaseItems(): Flow<List<PurchaseList>>
 }
