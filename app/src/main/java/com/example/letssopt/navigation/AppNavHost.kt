@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.example.letssopt.HomeViewModel
+import com.example.letssopt.presentation.home.HomeViewModel
 import com.example.letssopt.activity.HomeScreen
 import com.example.letssopt.activity.LoginScreen
 import com.example.letssopt.presentation.signup.SignUpScreen
