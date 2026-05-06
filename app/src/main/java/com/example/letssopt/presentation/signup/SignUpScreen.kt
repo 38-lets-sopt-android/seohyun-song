@@ -1,6 +1,5 @@
 package com.example.letssopt.presentation.signup
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -8,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -16,11 +16,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -29,32 +27,17 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.runtime.LaunchedEffect
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
 
 @Composable
 fun SignUpScreen(
-    navigateToLogin: (String, String) -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: SignUpViewModel = viewModel()
+    uiState: SignUpUiState,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onPasswordConfirmChange: (String) -> Unit,
+    onSignUpClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val context = LocalContext.current
-
-    LaunchedEffect(Unit) {
-        viewModel.uiEvent.collect { event ->
-            when (event) {
-                is SignUpUiEvent.ShowToast ->
-                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
-                is SignUpUiEvent.NavigateToLogin ->
-                    navigateToLogin(event.email, event.password)
-            }
-        }
-    }
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -99,7 +82,7 @@ fun SignUpScreen(
 
         TextField(
             value = uiState.emailInput,
-            onValueChange = { viewModel.onEmailChange(it) },
+            onValueChange = { onEmailChange(it) },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
             textStyle = TextStyle(
@@ -141,7 +124,7 @@ fun SignUpScreen(
 
         TextField(
             value = uiState.pwInput,
-            onValueChange = { viewModel.onPasswordChange(it) },
+            onValueChange = { onPasswordChange(it) },
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation(),
             shape = RoundedCornerShape(8.dp),
@@ -184,7 +167,7 @@ fun SignUpScreen(
 
         TextField(
             value = uiState.pwConfirm,
-            onValueChange = { viewModel.onPasswordConfirmChange(it) },
+            onValueChange = { onPasswordConfirmChange(it) },
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation(),
             shape = RoundedCornerShape(8.dp),
@@ -216,7 +199,7 @@ fun SignUpScreen(
 
         Button(
             onClick = {
-                viewModel.signUp()
+                onSignUpClick()
             },
             enabled = uiState.isButtonEnabled,
             shape = RoundedCornerShape(8.dp),

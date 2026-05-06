@@ -2,8 +2,6 @@ package com.example.letssopt.presentation.home
 
 import androidx.lifecycle.ViewModel
 import com.example.letssopt.R
-import com.example.letssopt.activity.ContentItem
-import com.example.letssopt.activity.WatchaPartyItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

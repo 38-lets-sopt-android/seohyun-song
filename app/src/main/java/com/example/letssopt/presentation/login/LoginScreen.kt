@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
+import com.example.letssopt.data.local.AuthRepository
 import com.example.letssopt.ui.theme.LETSSOPTTheme
 
 @Composable
@@ -49,6 +50,9 @@ fun LoginScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val viewModel: LoginViewModel = viewModel {
+        LoginViewModel(AuthRepository(context.applicationContext))
+    }
 
     LaunchedEffect(Unit) {
         viewModel.uiEvent.collect { event ->
@@ -197,7 +201,7 @@ fun LoginScreen(
         Button(
             onClick = {
                 viewModel.login(
-                    context = context,
+                    // context = context,
                     registeredEmail = registeredEmail,
                     registeredPw = registeredPw
                 )

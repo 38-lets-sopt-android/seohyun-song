@@ -1,6 +1,5 @@
 package com.example.letssopt.navigation
 
-import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -8,30 +7,31 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.example.letssopt.data.local.AuthRepository
+import com.example.letssopt.presentation.home.HomeScreen
 import com.example.letssopt.presentation.home.HomeViewModel
-import com.example.letssopt.activity.HomeScreen
-import com.example.letssopt.activity.LoginScreen
-import com.example.letssopt.presentation.signup.SignUpScreen
+import com.example.letssopt.presentation.login.LoginScreen
+import com.example.letssopt.presentation.main.AppViewModel
+import com.example.letssopt.presentation.signup.SignUpRoute
 
 @Composable
 fun AppNavHost(
     navController: NavHostController
 ) {
+    // TODO: 자동 로그인 로직만 따로!
     val context = LocalContext.current
-
-    val pref = context.getSharedPreferences("LoginPref", Context.MODE_PRIVATE)
-    val savedEmail = pref.getString("email", "")
-    val savedPw = pref.getString("password", "")
-
-    val startDestination = if (!savedEmail.isNullOrEmpty() && !savedPw.isNullOrEmpty()) {
+    val appViewModel: AppViewModel = viewModel{
+        AppViewModel(AuthRepository(context.applicationContext))
+    }
+    val startDestination = if (appViewModel.isAutoLoginAvailable()) {
         Home
     } else {
-        Login()
+        Login
     }
 
     NavHost(
         navController = navController,
-        startDestination = Login()
+        startDestination = startDestination
     ) {
         composable<Login> { backStackEntry ->
             val login: Login = backStackEntry.toRoute()
@@ -52,7 +52,7 @@ fun AppNavHost(
             )
         }
         composable<SignUp> {
-            SignUpScreen(
+            SignUpRoute(
                 navigateToLogin = { email, password ->
                     navController.navigate(
                         Login(email = email, password = password)
