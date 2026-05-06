@@ -47,9 +47,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.letssopt.R
-import com.example.letssopt.activity.FolderScreen
-import com.example.letssopt.activity.SearchScreen
-import com.example.letssopt.activity.WebtoonScreen
 import com.example.letssopt.component.ContentCard
 import com.example.letssopt.component.NavigationItem
 import com.example.letssopt.component.NewContentCard
@@ -59,7 +56,10 @@ import com.example.letssopt.navigation.HomeTab
 import com.example.letssopt.navigation.Purchase
 import com.example.letssopt.navigation.Search
 import com.example.letssopt.navigation.Webtoon
+import com.example.letssopt.presentation.folder.FolderScreen
 import com.example.letssopt.presentation.purchase.PurchaseScreen
+import com.example.letssopt.presentation.search.SearchScreen
+import com.example.letssopt.presentation.webtoon.WebtoonScreen
 import com.example.letssopt.ui.theme.LETSSOPTTheme
 
 data class WatchaPartyItem(

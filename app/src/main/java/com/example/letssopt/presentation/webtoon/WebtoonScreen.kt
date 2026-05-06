@@ -1,4 +1,4 @@
-package com.example.letssopt.activity
+package com.example.letssopt.presentation.webtoon
 
 
 import androidx.compose.foundation.background
