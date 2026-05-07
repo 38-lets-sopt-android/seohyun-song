@@ -10,8 +10,7 @@ data class SignUpUiState(
     val partInput: String = ""
 ) {
     val isButtonEnabled: Boolean
-        // TODO: 조건 추가 필요!
-        get() = emailInput.isNotBlank() && pwInput.isNotBlank() && pwConfirm.isNotBlank()
+        get() = loginIdInput.isNotBlank() && pwInput.isNotBlank() && pwConfirm.isNotBlank() && nameInput.isNotBlank() && emailInput.isNotBlank() && ageInput.isNotBlank() && partInput.isNotBlank()
 }
 
 sealed class SignUpUiEvent {

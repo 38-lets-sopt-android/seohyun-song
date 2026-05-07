@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.letssopt.R
 
-// [수정] 반복되는 라벨 + TextField 패턴을 재사용 가능한 컴포넌트로 분리
 @Composable
 fun SignUpTextField(
     label: String,
