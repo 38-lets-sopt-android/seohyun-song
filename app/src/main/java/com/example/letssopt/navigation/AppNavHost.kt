@@ -8,9 +8,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.example.letssopt.data.local.AuthRepository
-import com.example.letssopt.presentation.home.HomeRoute
 import com.example.letssopt.presentation.login.LoginRoute
 import com.example.letssopt.presentation.main.AppViewModel
+import com.example.letssopt.presentation.main.MainScreen
 import com.example.letssopt.presentation.signup.SignUpRoute
 
 @Composable
@@ -59,7 +59,7 @@ fun AppNavHost(
             )
         }
         composable<Home> {
-            HomeRoute()
+            MainScreen()
         }
     }
 }
