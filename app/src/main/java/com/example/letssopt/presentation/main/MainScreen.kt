@@ -104,23 +104,53 @@ fun MainScreen(
                     ) {
                         NavigationItem(R.drawable.ic_bottom_bar_main, "메인",
                             currentDestination?.hasRoute<HomeTab>() == true
-                        ) { tabNavController.navigate(HomeTab) { launchSingleTop = true } }
+                        ) {
+                            tabNavController.navigate(HomeTab) {
+                                popUpTo<HomeTab> {saveState = true}
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
 
                         NavigationItem(R.drawable.ic_bottom_bar_individual_purchase, "개별 구매",
                             currentDestination?.hasRoute<Purchase>() == true
-                        ) { tabNavController.navigate(Purchase) { launchSingleTop = true } }
+                        ) {
+                            tabNavController.navigate(Purchase) {
+                                popUpTo<HomeTab> {saveState = true}
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
 
                         NavigationItem(R.drawable.ic_bottom_bar_webtoon, "웹툰",
                             currentDestination?.hasRoute<Webtoon>() == true
-                        ) { tabNavController.navigate(Webtoon) { launchSingleTop = true } }
+                        ) {
+                            tabNavController.navigate(Webtoon) {
+                                popUpTo<HomeTab> {saveState = true}
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
 
                         NavigationItem(R.drawable.ic_bottom_bar_search, "찾기",
                             currentDestination?.hasRoute<Search>() == true
-                        ) { tabNavController.navigate(Search) { launchSingleTop = true } }
+                        ) {
+                            tabNavController.navigate(Search) {
+                                popUpTo<HomeTab> {saveState = true}
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
 
                         NavigationItem(R.drawable.ic_bottom_bar_folder, "보관함",
                             currentDestination?.hasRoute<Folder>() == true
-                        ) { tabNavController.navigate(Folder) { launchSingleTop = true } }
+                        ) {
+                            tabNavController.navigate(Folder) {
+                                popUpTo<HomeTab> {saveState = true}
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
                     }
                 },
                 containerColor = Color(0xFF141414)
