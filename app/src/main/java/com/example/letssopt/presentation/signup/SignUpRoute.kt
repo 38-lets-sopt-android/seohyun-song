@@ -29,9 +29,13 @@ fun SignUpRoute(
 
     SignUpScreen(
         uiState = uiState,
-        onEmailChange = viewModel::onEmailChange,
+        onLoginIdChange = viewModel::onLoginIdChange,
         onPasswordChange = viewModel::onPasswordChange,
         onPasswordConfirmChange = viewModel::onPasswordConfirmChange,
+        onNameChange = viewModel::onNameChange,
+        onEmailChange = viewModel::onEmailChange,
+        onAgeChange = viewModel::onAgeChange,
+        onPartChange = viewModel::onPartChange,
         onSignUpClick = viewModel::signUp
     )
 }

@@ -20,8 +20,8 @@ class SignUpViewModel : ViewModel() {
     private val _uiEvent = MutableSharedFlow<SignUpUiEvent>()
     val uiEvent: SharedFlow<SignUpUiEvent> = _uiEvent.asSharedFlow()
 
-    fun onEmailChange(email: String) {
-        _uiState.update { it.copy(emailInput = email) }
+    fun onLoginIdChange(login: String) {
+        _uiState.update { it.copy(loginIdInput = login) }
     }
 
     fun onPasswordChange(password: String) {
@@ -32,10 +32,30 @@ class SignUpViewModel : ViewModel() {
         _uiState.update { it.copy(pwConfirm = passwordConfirm) }
     }
 
+    fun onNameChange(name: String) {
+        _uiState.update { it.copy(nameInput = name) }
+    }
+
+    fun onEmailChange(email: String) {
+        _uiState.update { it.copy(emailInput = email) }
+    }
+
+    fun onAgeChange(age: String) {
+        _uiState.update { it.copy(ageInput = age) }
+    }
+
+    fun onPartChange(part: String) {
+        _uiState.update { it.copy(partInput = part) }
+    }
+
     fun signUp() {
-        val email = _uiState.value.emailInput
+        val loginId = _uiState.value.loginIdInput
         val pw = _uiState.value.pwInput
         val pwConfirm = _uiState.value.pwConfirm
+        val name = _uiState.value.nameInput
+        val email = _uiState.value.emailInput
+        val age = _uiState.value.ageInput.toInt()
+        val part = _uiState.value.partInput
 
         viewModelScope.launch {
             when {

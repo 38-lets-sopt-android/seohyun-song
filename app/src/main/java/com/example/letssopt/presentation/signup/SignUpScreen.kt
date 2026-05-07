@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -23,6 +24,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,9 +36,13 @@ import com.example.letssopt.ui.theme.LETSSOPTTheme
 @Composable
 fun SignUpScreen(
     uiState: SignUpUiState,
-    onEmailChange: (String) -> Unit,
+    onLoginIdChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onPasswordConfirmChange: (String) -> Unit,
+    onNameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onAgeChange: (String) -> Unit,
+    onPartChange: (String) -> Unit,
     onSignUpClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -70,7 +76,7 @@ fun SignUpScreen(
         )
 
         Text(
-            text = "이메일",
+            text = "아이디",
             fontSize = 14.sp,
             fontWeight = FontWeight.Medium,
             fontFamily = FontFamily(Font(R.font.pretendard_regular)),
@@ -83,8 +89,8 @@ fun SignUpScreen(
         Spacer(modifier = Modifier.height(3.dp))
 
         TextField(
-            value = uiState.emailInput,
-            onValueChange = { onEmailChange(it) },
+            value = uiState.loginIdInput,
+            onValueChange = { onLoginIdChange(it) },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
             textStyle = TextStyle(
@@ -95,7 +101,7 @@ fun SignUpScreen(
             ),
             placeholder = {
                 Text(
-                    text = "이메일 주소를 입력하세요",
+                    text = "아이디를 입력하세요",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
                     fontFamily = FontFamily(Font(R.font.pretendard_regular)),
@@ -197,6 +203,175 @@ fun SignUpScreen(
             )
         )
 
+        Spacer(modifier = Modifier.height(18.dp))
+
+        Text(
+            text = "이름",
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium,
+            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+            color = Color(0xFF999999),
+            modifier = Modifier.align(Alignment.Start)
+        )
+
+        Spacer(modifier = Modifier.height(3.dp))
+
+        TextField(
+            value = uiState.nameInput,
+            onValueChange = { onNameChange(it) },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(8.dp),
+            textStyle = TextStyle(
+                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Normal,
+                color = Color.White
+            ),
+            placeholder = {
+                Text(
+                    text = "이름을 입력하세요",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                    color = Color(0xFF666666),
+                )
+            },
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color(0xFF2A2A2A),
+                unfocusedContainerColor = Color(0xFF2A2A2A),
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent
+            )
+        )
+
+        Spacer(modifier = Modifier.height(18.dp))
+
+        Text(
+            text = "이메일",
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium,
+            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+            color = Color(0xFF999999),
+            modifier = Modifier.align(Alignment.Start)
+        )
+
+        Spacer(modifier = Modifier.height(3.dp))
+
+        TextField(
+            value = uiState.emailInput,
+            onValueChange = { onEmailChange(it) },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(8.dp),
+            textStyle = TextStyle(
+                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Normal,
+                color = Color.White
+            ),
+            placeholder = {
+                Text(
+                    text = "이메일을 입력하세요",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                    color = Color(0xFF666666),
+                )
+            },
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color(0xFF2A2A2A),
+                unfocusedContainerColor = Color(0xFF2A2A2A),
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent
+            )
+        )
+
+        Spacer(modifier = Modifier.height(18.dp))
+
+        Text(
+            text = "나이",
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium,
+            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+            color = Color(0xFF999999),
+            modifier = Modifier.align(Alignment.Start)
+        )
+
+        Spacer(modifier = Modifier.height(3.dp))
+
+        TextField(
+            value = uiState.ageInput,
+            onValueChange = { onAgeChange(it) },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(8.dp),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            textStyle = TextStyle(
+                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Normal,
+                color = Color.White
+            ),
+            placeholder = {
+                Text(
+                    text = "나이를 입력하세요",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                    color = Color(0xFF666666),
+                )
+            },
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color(0xFF2A2A2A),
+                unfocusedContainerColor = Color(0xFF2A2A2A),
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent
+            )
+        )
+
+        Spacer(modifier = Modifier.height(18.dp))
+
+        Text(
+            text = "파트",
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium,
+            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+            color = Color(0xFF999999),
+            modifier = Modifier.align(Alignment.Start)
+        )
+
+        Spacer(modifier = Modifier.height(3.dp))
+
+        TextField(
+            value = uiState.partInput,
+            onValueChange = { onPartChange(it) },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(8.dp),
+            textStyle = TextStyle(
+                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Normal,
+                color = Color.White
+            ),
+            placeholder = {
+                Text(
+                    text = "파트를 입력하세요",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                    color = Color(0xFF666666),
+                )
+            },
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color(0xFF2A2A2A),
+                unfocusedContainerColor = Color(0xFF2A2A2A),
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent
+            )
+        )
+
         Spacer(modifier = Modifier.weight(1f))
 
         Button(
@@ -233,9 +408,13 @@ private fun SignUpScreenPreview() {
     LETSSOPTTheme {
         SignUpScreen(
             uiState = SignUpUiState(),
-            onEmailChange = {},
+            onLoginIdChange = {},
             onPasswordChange = {},
             onPasswordConfirmChange = {},
+            onNameChange = {},
+            onEmailChange = {},
+            onAgeChange = {},
+            onPartChange = {},
             onSignUpClick = {}
         )
     }
