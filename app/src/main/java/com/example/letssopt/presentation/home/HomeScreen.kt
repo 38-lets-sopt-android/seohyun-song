@@ -1,40 +1,22 @@
-package com.example.letssopt.activity
+package com.example.letssopt.presentation.home
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,127 +27,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.letssopt.HomeViewModel
 import com.example.letssopt.R
-import com.example.letssopt.ui.theme.LETSSOPTTheme
-import com.example.letssopt.component.NavigationItem
 import com.example.letssopt.component.ContentCard
 import com.example.letssopt.component.NewContentCard
 import com.example.letssopt.component.WatchaPartyCard
+import com.example.letssopt.presentation.home.model.ContentItem
+import com.example.letssopt.presentation.home.model.WatchaPartyItem
+import com.example.letssopt.presentation.main.MainScreen
+import com.example.letssopt.ui.theme.LETSSOPTTheme
 
-class HomeActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            LETSSOPTTheme {
-                HomeScreen()
-            }
-        }
-    }
-}
-
-data class WatchaPartyItem(
-    val title: String,
-    val time: String,
-    val imageRes: Int
-)
-
-data class ContentItem(
-    val title: String,
-    val imageRes: Int
-)
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    innerPadding: PaddingValues,
+    newContents: List<ContentItem>,
+    watGorithm: List<ContentItem>,
+    upComing: List<ContentItem>,
+    watchaParty: List<WatchaPartyItem>,
     modifier: Modifier = Modifier
 ) {
-    val viewModel: HomeViewModel = viewModel()
-    var selectedTab by remember { mutableIntStateOf(0) }
-
-    Scaffold(
-        modifier = modifier,
-        topBar = {
-            TopAppBar(
-                title = {Text(text = "")},
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(70.dp),
-                actions = {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(14.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .padding(end = 20.dp)
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_home_watch),
-                            contentDescription = "watch",
-                            modifier = Modifier
-                                .size(24.dp)
-                                .clickable(onClick = {}),
-                            tint = Color.White,
-                        )
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_home_noti),
-                            contentDescription = "noti",
-                            modifier = Modifier
-                                .size(24.dp)
-                                .clickable(onClick = {}),
-                            tint = Color.White,
-                        )
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_home_profile),
-                            contentDescription = "profile",
-                            modifier = Modifier
-                                .size(24.dp)
-                                .clickable(onClick = {}),
-                            tint = Color.White
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF141414)),
-            )
-        },
-        bottomBar = {
-            BottomAppBar(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(72.dp),
-                actions = {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        NavigationItem(R.drawable.ic_bottom_bar_main, "메인", selectedTab == 0) { selectedTab = 0 }
-                        NavigationItem(R.drawable.ic_bottom_bar_individual_purchase, "개별 구매", selectedTab == 1) { selectedTab = 1 }
-                        NavigationItem(R.drawable.ic_bottom_bar_webtoon, "웹툰", selectedTab == 2) { selectedTab = 2 }
-                        NavigationItem(R.drawable.ic_bottom_bar_search, "찾기", selectedTab == 3) { selectedTab = 3 }
-                        NavigationItem(R.drawable.ic_bottom_bar_folder, "보관함", selectedTab == 4) { selectedTab = 4 }
-                    }
-                },
-                containerColor = Color(0xFF141414)
-            )
-        }
-    ) { innerPadding ->
-        when (selectedTab) {
-            0 -> HomeContent(innerPadding, viewModel)
-            1 -> PurchaseScreen(innerPadding)
-            2 -> WebtoonScreen(innerPadding)
-            3 -> SearchScreen(innerPadding)
-            4 -> FolderScreen(innerPadding)
-        }
-    }
-}
-
-@Composable
-fun HomeContent(innerPadding: PaddingValues, viewModel: HomeViewModel) {
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(Color(0xFF141414))
             .padding(innerPadding),
@@ -195,7 +76,7 @@ fun HomeContent(innerPadding: PaddingValues, viewModel: HomeViewModel) {
                 contentPadding = PaddingValues(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                items(viewModel.newContents) { content ->
+                items(newContents) { content ->
                     NewContentCard (
                         title = content.title,
                         imageRes = content.imageRes,
@@ -244,7 +125,7 @@ fun HomeContent(innerPadding: PaddingValues, viewModel: HomeViewModel) {
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 contentPadding = PaddingValues(horizontal = 8.dp),
             ) {
-                items(viewModel.watGorithm) { content ->
+                items(watGorithm) { content ->
                     ContentCard (
                         title = content.title,
                         imageRes = content.imageRes
@@ -282,7 +163,7 @@ fun HomeContent(innerPadding: PaddingValues, viewModel: HomeViewModel) {
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 contentPadding = PaddingValues(horizontal = 8.dp),
             ) {
-                items(viewModel.upComing) { content ->
+                items(upComing) { content ->
                     ContentCard (
                         title = content.title,
                         imageRes = content.imageRes
@@ -320,7 +201,7 @@ fun HomeContent(innerPadding: PaddingValues, viewModel: HomeViewModel) {
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 contentPadding = PaddingValues(horizontal = 8.dp),
             ) {
-                items(viewModel.watchaParty) {
+                items(watchaParty) {
                         content ->
                     WatchaPartyCard (
                         title = content.title,
@@ -338,6 +219,6 @@ fun HomeContent(innerPadding: PaddingValues, viewModel: HomeViewModel) {
 @Composable
 private fun HomeScreenPreview() {
     LETSSOPTTheme {
-        HomeScreen()
+        MainScreen()
     }
 }
