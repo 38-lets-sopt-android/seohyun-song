@@ -8,9 +8,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.example.letssopt.data.local.AuthRepository
-import com.example.letssopt.presentation.home.HomeScreen
-import com.example.letssopt.presentation.home.HomeViewModel
-import com.example.letssopt.presentation.login.LoginScreen
+import com.example.letssopt.presentation.home.HomeRoute
+import com.example.letssopt.presentation.login.LoginRoute
 import com.example.letssopt.presentation.main.AppViewModel
 import com.example.letssopt.presentation.signup.SignUpRoute
 
@@ -18,7 +17,6 @@ import com.example.letssopt.presentation.signup.SignUpRoute
 fun AppNavHost(
     navController: NavHostController
 ) {
-    // TODO: 자동 로그인 로직만 따로!
     val context = LocalContext.current
     val appViewModel: AppViewModel = viewModel{
         AppViewModel(AuthRepository(context.applicationContext))
@@ -36,17 +34,13 @@ fun AppNavHost(
         composable<Login> { backStackEntry ->
             val login: Login = backStackEntry.toRoute()
 
-            LoginScreen(
+            LoginRoute(
                 registeredEmail = login.email,
                 registeredPw = login.password,
-                navigateToSignUp = {
-                    navController.navigate(SignUp)
-                },
+                navigateToSignUp = { navController.navigate(SignUp) },
                 navigateToHome = {
                     navController.navigate(Home) {
-                        popUpTo<Login> {
-                            inclusive = true
-                        }
+                        popUpTo<Login> { inclusive = true }
                     }
                 }
             )
@@ -65,8 +59,7 @@ fun AppNavHost(
             )
         }
         composable<Home> {
-            val viewModel: HomeViewModel = viewModel()
-            HomeScreen(viewModel = viewModel)
+            HomeRoute()
         }
     }
 }

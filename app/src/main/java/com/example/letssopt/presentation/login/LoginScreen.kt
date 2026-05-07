@@ -1,6 +1,5 @@
 package com.example.letssopt.presentation.login
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -18,12 +17,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -33,37 +29,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
-import com.example.letssopt.data.local.AuthRepository
 import com.example.letssopt.ui.theme.LETSSOPTTheme
 
 @Composable
 fun LoginScreen(
-    registeredEmail: String,
-    registeredPw: String,
+    uiState: LoginUiState,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onLoginClick: () -> Unit,
     navigateToSignUp: () -> Unit,
-    navigateToHome: () -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: LoginViewModel = viewModel()
+    modifier: Modifier = Modifier
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val context = LocalContext.current
-    val viewModel: LoginViewModel = viewModel {
-        LoginViewModel(AuthRepository(context.applicationContext))
-    }
-
-    LaunchedEffect(Unit) {
-        viewModel.uiEvent.collect { event ->
-            when (event) {
-                is LoginUiEvent.ShowToast ->
-                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
-                is LoginUiEvent.NavigateToHome -> navigateToHome()
-            }
-        }
-    }
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -111,7 +88,7 @@ fun LoginScreen(
 
         TextField (
             value = uiState.emailInput,
-            onValueChange = { viewModel.onEmailChange(it) },
+            onValueChange = { onEmailChange(it) },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
             textStyle = TextStyle(
@@ -153,7 +130,7 @@ fun LoginScreen(
 
         TextField (
             value = uiState.pwInput,
-            onValueChange = { viewModel.onPasswordChange(it) },
+            onValueChange = { onPasswordChange(it) },
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation(),
             shape = RoundedCornerShape(8.dp),
@@ -200,11 +177,7 @@ fun LoginScreen(
         // 로그인 버튼
         Button(
             onClick = {
-                viewModel.login(
-                    // context = context,
-                    registeredEmail = registeredEmail,
-                    registeredPw = registeredPw
-                )
+                onLoginClick()
             },
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
@@ -232,10 +205,11 @@ fun LoginScreen(
 private fun LoginScreenPreview() {
     LETSSOPTTheme {
         LoginScreen(
-            registeredEmail = "sopt@gmail.com",
-            registeredPw = "sopt1234",
-            navigateToSignUp = {},
-            navigateToHome = {}
+            uiState = LoginUiState(),
+            onEmailChange = {},
+            onPasswordChange = {},
+            onLoginClick = {},
+            navigateToSignUp = {}
         )
     }
 }

@@ -39,8 +39,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -77,7 +75,10 @@ data class ContentItem(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel,
+    newContents: List<ContentItem>,
+    watGorithm: List<ContentItem>,
+    upComing: List<ContentItem>,
+    watchaParty: List<WatchaPartyItem>,
     modifier: Modifier = Modifier
 ) {
     val tabNavController = rememberNavController()
@@ -171,7 +172,13 @@ fun HomeScreen(
             navController = tabNavController,
             startDestination = HomeTab
         ) {
-            composable<HomeTab> { HomeContent(innerPadding, viewModel) }
+            composable<HomeTab> { HomeBody(
+                innerPadding = innerPadding,
+                newContents = newContents,
+                watGorithm = watGorithm,
+                upComing = upComing,
+                watchaParty = watchaParty
+            ) }
             composable<Purchase> { PurchaseScreen() }
             composable<Webtoon> { WebtoonScreen() }
             composable<Search> { SearchScreen() }
@@ -181,12 +188,13 @@ fun HomeScreen(
 }
 
 @Composable
-fun HomeContent(innerPadding: PaddingValues, viewModel: HomeViewModel) {
-    val newContents by viewModel.newContents.collectAsStateWithLifecycle()
-    val watGorithm by viewModel.watGorithm.collectAsStateWithLifecycle()
-    val upComing by viewModel.upComing.collectAsStateWithLifecycle()
-    val watchaParty by viewModel.watchaParty.collectAsStateWithLifecycle()
-
+fun HomeBody(
+    innerPadding: PaddingValues,
+    newContents: List<ContentItem>,
+    watGorithm: List<ContentItem>,
+    upComing: List<ContentItem>,
+    watchaParty: List<WatchaPartyItem>,
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -361,8 +369,6 @@ fun HomeContent(innerPadding: PaddingValues, viewModel: HomeViewModel) {
 @Composable
 private fun HomeScreenPreview() {
     LETSSOPTTheme {
-        HomeScreen(
-            viewModel = viewModel(),
-        )
+        HomeRoute()
     }
 }
