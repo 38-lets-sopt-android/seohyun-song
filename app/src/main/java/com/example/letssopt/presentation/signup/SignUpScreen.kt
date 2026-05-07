@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -14,13 +13,10 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -31,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.letssopt.R
+import com.example.letssopt.component.SignUpTextField
 import com.example.letssopt.ui.theme.LETSSOPTTheme
 
 @Composable
@@ -75,301 +72,57 @@ fun SignUpScreen(
                 .padding(top = 26.dp),
         )
 
-        Text(
-            text = "아이디",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Medium,
-            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-            color = Color(0xFF999999),
-            modifier = Modifier
-                .align(Alignment.Start)
-                .padding(top = 36.dp),
-        )
-
-        Spacer(modifier = Modifier.height(3.dp))
-
-        TextField(
+        SignUpTextField(
+            label = "아이디",
             value = uiState.loginIdInput,
-            onValueChange = { onLoginIdChange(it) },
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(8.dp),
-            textStyle = TextStyle(
-                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Normal,
-                color = Color.White
-            ),
-            placeholder = {
-                Text(
-                    text = "아이디를 입력하세요",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                    color = Color(0xFF666666),
-                )
-            },
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color(0xFF2A2A2A),
-                unfocusedContainerColor = Color(0xFF2A2A2A),
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            )
+            onValueChange = onLoginIdChange,
+            placeholder = "아이디를 입력하세요",
+            modifier = Modifier.padding(top = 36.dp)  // 첫 필드만 상단 패딩 적용
         )
 
-        Spacer(modifier = Modifier.height(18.dp))
-
-        Text(
-            text = "비밀번호",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Medium,
-            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-            color = Color(0xFF999999),
-            modifier = Modifier.align(Alignment.Start)
-        )
-
-        Spacer(modifier = Modifier.height(3.dp))
-
-        TextField(
+        SignUpTextField(
+            label = "비밀번호",
             value = uiState.pwInput,
-            onValueChange = { onPasswordChange(it) },
-            modifier = Modifier.fillMaxWidth(),
-            visualTransformation = PasswordVisualTransformation(),
-            shape = RoundedCornerShape(8.dp),
-            textStyle = TextStyle(
-                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Normal,
-                color = Color.White
-            ),
-            placeholder = {
-                Text(
-                    text = "비밀번호를 입력하세요",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                    color = Color(0xFF666666),
-                )
-            },
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color(0xFF2A2A2A),
-                unfocusedContainerColor = Color(0xFF2A2A2A),
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            )
+            onValueChange = onPasswordChange,
+            placeholder = "비밀번호를 입력하세요",
+            visualTransformation = PasswordVisualTransformation()
         )
 
-        Spacer(modifier = Modifier.height(18.dp))
-
-        Text(
-            text = "비밀번호 확인",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Medium,
-            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-            color = Color(0xFF999999),
-            modifier = Modifier.align(Alignment.Start)
-        )
-
-        Spacer(modifier = Modifier.height(3.dp))
-
-        TextField(
+        SignUpTextField(
+            label = "비밀번호 확인",
             value = uiState.pwConfirm,
-            onValueChange = { onPasswordConfirmChange(it) },
-            modifier = Modifier.fillMaxWidth(),
-            visualTransformation = PasswordVisualTransformation(),
-            shape = RoundedCornerShape(8.dp),
-            textStyle = TextStyle(
-                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Normal,
-                color = Color.White
-            ),
-            placeholder = {
-                Text(
-                    text = "비밀번호를 다시 입력하세요",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                    color = Color(0xFF666666),
-                )
-            },
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color(0xFF2A2A2A),
-                unfocusedContainerColor = Color(0xFF2A2A2A),
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            )
+            onValueChange = onPasswordConfirmChange,
+            placeholder = "비밀번호를 다시 입력하세요",
+            visualTransformation = PasswordVisualTransformation()
         )
 
-        Spacer(modifier = Modifier.height(18.dp))
-
-        Text(
-            text = "이름",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Medium,
-            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-            color = Color(0xFF999999),
-            modifier = Modifier.align(Alignment.Start)
-        )
-
-        Spacer(modifier = Modifier.height(3.dp))
-
-        TextField(
+        SignUpTextField(
+            label = "이름",
             value = uiState.nameInput,
-            onValueChange = { onNameChange(it) },
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(8.dp),
-            textStyle = TextStyle(
-                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Normal,
-                color = Color.White
-            ),
-            placeholder = {
-                Text(
-                    text = "이름을 입력하세요",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                    color = Color(0xFF666666),
-                )
-            },
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color(0xFF2A2A2A),
-                unfocusedContainerColor = Color(0xFF2A2A2A),
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            )
+            onValueChange = onNameChange,
+            placeholder = "이름을 입력하세요"
         )
 
-        Spacer(modifier = Modifier.height(18.dp))
-
-        Text(
-            text = "이메일",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Medium,
-            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-            color = Color(0xFF999999),
-            modifier = Modifier.align(Alignment.Start)
-        )
-
-        Spacer(modifier = Modifier.height(3.dp))
-
-        TextField(
+        SignUpTextField(
+            label = "이메일",
             value = uiState.emailInput,
-            onValueChange = { onEmailChange(it) },
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(8.dp),
-            textStyle = TextStyle(
-                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Normal,
-                color = Color.White
-            ),
-            placeholder = {
-                Text(
-                    text = "이메일을 입력하세요",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                    color = Color(0xFF666666),
-                )
-            },
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color(0xFF2A2A2A),
-                unfocusedContainerColor = Color(0xFF2A2A2A),
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            )
+            onValueChange = onEmailChange,
+            placeholder = "이메일을 입력하세요"
         )
 
-        Spacer(modifier = Modifier.height(18.dp))
-
-        Text(
-            text = "나이",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Medium,
-            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-            color = Color(0xFF999999),
-            modifier = Modifier.align(Alignment.Start)
-        )
-
-        Spacer(modifier = Modifier.height(3.dp))
-
-        TextField(
+        SignUpTextField(
+            label = "나이",
             value = uiState.ageInput,
-            onValueChange = { onAgeChange(it) },
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(8.dp),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            textStyle = TextStyle(
-                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Normal,
-                color = Color.White
-            ),
-            placeholder = {
-                Text(
-                    text = "나이를 입력하세요",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                    color = Color(0xFF666666),
-                )
-            },
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color(0xFF2A2A2A),
-                unfocusedContainerColor = Color(0xFF2A2A2A),
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            )
+            onValueChange = onAgeChange,
+            placeholder = "나이를 입력하세요",
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
-        Spacer(modifier = Modifier.height(18.dp))
-
-        Text(
-            text = "파트",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Medium,
-            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-            color = Color(0xFF999999),
-            modifier = Modifier.align(Alignment.Start)
-        )
-
-        Spacer(modifier = Modifier.height(3.dp))
-
-        TextField(
+        SignUpTextField(
+            label = "파트",
             value = uiState.partInput,
-            onValueChange = { onPartChange(it) },
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(8.dp),
-            textStyle = TextStyle(
-                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Normal,
-                color = Color.White
-            ),
-            placeholder = {
-                Text(
-                    text = "파트를 입력하세요",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                    color = Color(0xFF666666),
-                )
-            },
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color(0xFF2A2A2A),
-                unfocusedContainerColor = Color(0xFF2A2A2A),
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            )
+            onValueChange = onPartChange,
+            placeholder = "파트를 입력하세요"
         )
 
         Spacer(modifier = Modifier.weight(1f))
