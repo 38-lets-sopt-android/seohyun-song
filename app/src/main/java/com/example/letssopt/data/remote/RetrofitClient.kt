@@ -1,7 +1,7 @@
 package com.example.letssopt.data.remote
 
 import com.example.letssopt.BuildConfig
-import com.example.letssopt.data.remote.api.service.ApiService
+import com.example.letssopt.data.remote.api.service.ApiInterface
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -28,5 +28,5 @@ object RetrofitClient {
         .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
         .build()
 
-    val apiService: ApiService = instance.create(ApiService::class.java)
+    val apiService: ApiInterface = instance.create(ApiInterface::class.java)
 }

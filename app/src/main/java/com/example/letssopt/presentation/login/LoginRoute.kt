@@ -36,12 +36,7 @@ fun LoginRoute(
         uiState = uiState,
         onEmailChange = viewModel::onEmailChange,
         onPasswordChange = viewModel::onPasswordChange,
-        onLoginClick = {
-            viewModel.login(
-                registeredEmail = registeredEmail,
-                registeredPw = registeredPw
-            )
-        },
+        onLoginClick = viewModel::login,
         navigateToSignUp = navigateToSignUp
     )
 }
