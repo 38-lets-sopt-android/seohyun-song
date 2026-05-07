@@ -6,7 +6,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
 import com.example.letssopt.data.local.AuthRepository
 import com.example.letssopt.presentation.login.LoginRoute
 import com.example.letssopt.presentation.main.AppViewModel
@@ -31,12 +30,8 @@ fun AppNavHost(
         navController = navController,
         startDestination = startDestination
     ) {
-        composable<Login> { backStackEntry ->
-            val login: Login = backStackEntry.toRoute()
-
+        composable<Login> {
             LoginRoute(
-                registeredEmail = login.email,
-                registeredPw = login.password,
                 navigateToSignUp = { navController.navigate(SignUp) },
                 navigateToHome = {
                     navController.navigate(MainRoute) {
