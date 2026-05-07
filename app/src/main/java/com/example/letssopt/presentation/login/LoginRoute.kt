@@ -11,8 +11,6 @@ import com.example.letssopt.data.local.AuthRepository
 
 @Composable
 fun LoginRoute(
-    registeredEmail: String,
-    registeredPw: String,
     navigateToSignUp: () -> Unit,
     navigateToHome: () -> Unit,
 ) {
