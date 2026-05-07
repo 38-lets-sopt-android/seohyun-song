@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -72,12 +73,13 @@ fun SignUpScreen(
                 .padding(top = 26.dp),
         )
 
+        Spacer(modifier = Modifier.height(36.dp))
+
         SignUpTextField(
             label = "아이디",
             value = uiState.loginIdInput,
             onValueChange = onLoginIdChange,
             placeholder = "아이디를 입력하세요",
-            modifier = Modifier.padding(top = 36.dp)  // 첫 필드만 상단 패딩 적용
         )
 
         SignUpTextField(
