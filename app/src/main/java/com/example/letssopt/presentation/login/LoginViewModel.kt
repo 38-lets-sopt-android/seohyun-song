@@ -25,8 +25,8 @@ class LoginViewModel(
     private val _uiEvent = MutableSharedFlow<LoginUiEvent>()
     val uiEvent: SharedFlow<LoginUiEvent> = _uiEvent.asSharedFlow()
 
-    fun onEmailChange(email: String) {
-        _uiState.update { it.copy(emailInput = email) }
+    fun onloginIdChange(loginId: String) {
+        _uiState.update { it.copy(loginIdInput = loginId) }
     }
 
     fun onPasswordChange(password: String) {
@@ -34,17 +34,17 @@ class LoginViewModel(
     }
 
     fun login() {
-        val email = _uiState.value.emailInput
+        val loginId = _uiState.value.loginIdInput
         val pw = _uiState.value.pwInput
 
         viewModelScope.launch {
             runCatching {
                 RetrofitClient.apiService.signIn(
-                    LoginRequest(loginId = email, password = pw)
+                    LoginRequest(loginId = loginId, password = pw)
                 )
             }.onSuccess { response ->
                 if (response.isSuccessful) {
-                    authRepository.saveLogin(email, pw)
+                    authRepository.saveLogin(loginId, pw)
                     _uiEvent.emit(LoginUiEvent.ShowToast("로그인에 성공했습니다"))
                     _uiEvent.emit(LoginUiEvent.NavigateToHome)
                 } else {

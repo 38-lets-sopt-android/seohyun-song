@@ -1,7 +1,7 @@
 package com.example.letssopt.presentation.login
 
 data class LoginUiState(
-    val emailInput: String = "",
+    val loginIdInput: String = "",
     val pwInput: String = "",
 )
 

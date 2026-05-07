@@ -32,7 +32,7 @@ fun LoginRoute(
 
     LoginScreen(
         uiState = uiState,
-        onEmailChange = viewModel::onEmailChange,
+        onloginIdChange = viewModel::onloginIdChange,
         onPasswordChange = viewModel::onPasswordChange,
         onLoginClick = viewModel::login,
         navigateToSignUp = navigateToSignUp
