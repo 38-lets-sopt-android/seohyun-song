@@ -25,9 +25,11 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.letssopt.R
+import com.example.letssopt.ui.theme.LETSSOPTTheme
 
 @Composable
 fun SignUpScreen(
@@ -222,5 +224,19 @@ fun SignUpScreen(
                 textAlign = TextAlign.Center,
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SignUpScreenPreview() {
+    LETSSOPTTheme {
+        SignUpScreen(
+            uiState = SignUpUiState(),
+            onEmailChange = {},
+            onPasswordChange = {},
+            onPasswordConfirmChange = {},
+            onSignUpClick = {}
+        )
     }
 }

@@ -35,11 +35,14 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
 import com.example.letssopt.database.PurchaseDatabase
+import com.example.letssopt.presentation.purchase.model.PurchaseItem
+import com.example.letssopt.ui.theme.LETSSOPTTheme
 
 @Composable
 fun PurchaseScreen(
@@ -127,5 +130,13 @@ fun PurchaseItemCard(
                 .size(28.dp)
                 .clickable(enabled = !isSaved) { onSaveClick() }
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PurchaseScreenPreview() {
+    LETSSOPTTheme {
+        PurchaseScreen()
     }
 }

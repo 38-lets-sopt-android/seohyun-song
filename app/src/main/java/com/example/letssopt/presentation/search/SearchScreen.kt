@@ -12,8 +12,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.letssopt.R
+import com.example.letssopt.ui.theme.LETSSOPTTheme
 
 @Composable
 fun SearchScreen() {
@@ -30,5 +32,13 @@ fun SearchScreen() {
             fontFamily = FontFamily(Font(R.font.pretendard_bold)),
             color = Color.White
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SearchScreenPreview() {
+    LETSSOPTTheme {
+        SearchScreen()
     }
 }
