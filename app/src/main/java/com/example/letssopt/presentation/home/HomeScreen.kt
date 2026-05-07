@@ -55,21 +55,12 @@ import com.example.letssopt.navigation.Purchase
 import com.example.letssopt.navigation.Search
 import com.example.letssopt.navigation.Webtoon
 import com.example.letssopt.presentation.folder.FolderScreen
+import com.example.letssopt.presentation.home.model.ContentItem
+import com.example.letssopt.presentation.home.model.WatchaPartyItem
 import com.example.letssopt.presentation.purchase.PurchaseScreen
 import com.example.letssopt.presentation.search.SearchScreen
 import com.example.letssopt.presentation.webtoon.WebtoonScreen
 import com.example.letssopt.ui.theme.LETSSOPTTheme
-
-data class WatchaPartyItem(
-    val title: String,
-    val time: String,
-    val imageRes: Int
-)
-
-data class ContentItem(
-    val title: String,
-    val imageRes: Int
-)
 
 @SuppressLint("RestrictedApi")
 @OptIn(ExperimentalMaterial3Api::class)
