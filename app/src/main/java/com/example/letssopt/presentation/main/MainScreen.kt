@@ -32,7 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.letssopt.R
 import com.example.letssopt.component.NavigationItem
 import com.example.letssopt.navigation.Folder
-import com.example.letssopt.navigation.HomeTab
+import com.example.letssopt.navigation.Home
 import com.example.letssopt.navigation.Purchase
 import com.example.letssopt.navigation.Search
 import com.example.letssopt.navigation.Webtoon
@@ -55,7 +55,7 @@ fun MainScreen(
     Scaffold(
         modifier = modifier,
         topBar = {
-            if (currentDestination?.hasRoute<HomeTab>() == true) {
+            if (currentDestination?.hasRoute<Home>() == true) {
                 TopAppBar(
                     title = { Text(text = "") },
                     modifier = Modifier
@@ -103,10 +103,10 @@ fun MainScreen(
                         modifier = Modifier.fillMaxSize()
                     ) {
                         NavigationItem(R.drawable.ic_bottom_bar_main, "메인",
-                            currentDestination?.hasRoute<HomeTab>() == true
+                            currentDestination?.hasRoute<Home>() == true
                         ) {
-                            tabNavController.navigate(HomeTab) {
-                                popUpTo<HomeTab> {saveState = true}
+                            tabNavController.navigate(Home) {
+                                popUpTo<Home> {saveState = true}
                                 launchSingleTop = true
                                 restoreState = true
                             }
@@ -116,7 +116,7 @@ fun MainScreen(
                             currentDestination?.hasRoute<Purchase>() == true
                         ) {
                             tabNavController.navigate(Purchase) {
-                                popUpTo<HomeTab> {saveState = true}
+                                popUpTo<Home> {saveState = true}
                                 launchSingleTop = true
                                 restoreState = true
                             }
@@ -126,7 +126,7 @@ fun MainScreen(
                             currentDestination?.hasRoute<Webtoon>() == true
                         ) {
                             tabNavController.navigate(Webtoon) {
-                                popUpTo<HomeTab> {saveState = true}
+                                popUpTo<Home> {saveState = true}
                                 launchSingleTop = true
                                 restoreState = true
                             }
@@ -136,7 +136,7 @@ fun MainScreen(
                             currentDestination?.hasRoute<Search>() == true
                         ) {
                             tabNavController.navigate(Search) {
-                                popUpTo<HomeTab> {saveState = true}
+                                popUpTo<Home> {saveState = true}
                                 launchSingleTop = true
                                 restoreState = true
                             }
@@ -146,7 +146,7 @@ fun MainScreen(
                             currentDestination?.hasRoute<Folder>() == true
                         ) {
                             tabNavController.navigate(Folder) {
-                                popUpTo<HomeTab> {saveState = true}
+                                popUpTo<Home> {saveState = true}
                                 launchSingleTop = true
                                 restoreState = true
                             }
@@ -159,9 +159,9 @@ fun MainScreen(
     ) { innerPadding ->
         NavHost(
             navController = tabNavController,
-            startDestination = HomeTab
+            startDestination = Home
         ) {
-            composable<HomeTab> { HomeRoute(innerPadding = innerPadding) }
+            composable<Home> { HomeRoute(innerPadding = innerPadding) }
             composable<Purchase> { PurchaseScreen() }
             composable<Webtoon> { WebtoonScreen() }
             composable<Search> { SearchScreen() }

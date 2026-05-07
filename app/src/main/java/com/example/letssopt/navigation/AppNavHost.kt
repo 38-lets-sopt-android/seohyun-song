@@ -22,9 +22,9 @@ fun AppNavHost(
         AppViewModel(AuthRepository(context.applicationContext))
     }
     val startDestination = if (appViewModel.isAutoLoginAvailable()) {
-        Home
+        MainRoute
     } else {
-        Login
+        Login()
     }
 
     NavHost(
@@ -39,7 +39,7 @@ fun AppNavHost(
                 registeredPw = login.password,
                 navigateToSignUp = { navController.navigate(SignUp) },
                 navigateToHome = {
-                    navController.navigate(Home) {
+                    navController.navigate(MainRoute) {
                         popUpTo<Login> { inclusive = true }
                     }
                 }
@@ -58,7 +58,7 @@ fun AppNavHost(
                 }
             )
         }
-        composable<Home> {
+        composable<MainRoute> {
             MainScreen()
         }
     }
