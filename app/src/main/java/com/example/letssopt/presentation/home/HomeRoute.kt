@@ -11,16 +11,13 @@ fun HomeRoute(
     innerPadding: PaddingValues
 ) {
     val viewModel: HomeViewModel = viewModel()
-    val newContents by viewModel.newContents.collectAsStateWithLifecycle()
-    val watGorithm by viewModel.watGorithm.collectAsStateWithLifecycle()
-    val upComing by viewModel.upComing.collectAsStateWithLifecycle()
-    val watchaParty by viewModel.watchaParty.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HomeScreen(
         innerPadding = innerPadding,
-        newContents = newContents,
-        watGorithm = watGorithm,
-        upComing = upComing,
-        watchaParty = watchaParty
+        newContents = uiState.newContents,
+        watGorithm = uiState.watGorithm,
+        upComing = uiState.upComing,
+        watchaParty = uiState.watchaParty
     )
 }
