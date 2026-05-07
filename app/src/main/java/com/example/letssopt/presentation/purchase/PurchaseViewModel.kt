@@ -16,19 +16,11 @@ class PurchaseViewModel(private val dao: PurchaseDAO) : ViewModel() {
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     val dummyItems: List<PurchaseItem> = listOf(
-        PurchaseItem(id = 1, title = "이 사랑 통역 되나요?", imageRes = R.drawable.img_love_traslate),
-        PurchaseItem(
-            id = 2,
-            title = "STRANGER THINGS 5",
-            imageRes = R.drawable.img_stranger_things5
-        ),
-        PurchaseItem(id = 3, title = "HALI MARY", imageRes = R.drawable.img_hailmary),
-        PurchaseItem(id = 4, title = "이 사랑 통역 되나요?", imageRes = R.drawable.img_love_traslate),
-        PurchaseItem(
-            id = 5,
-            title = "STRANGER THINGS 5",
-            imageRes = R.drawable.img_stranger_things5
-        ),
+        PurchaseItem(title = "이 사랑 통역 되나요?", imageRes = R.drawable.img_love_traslate),
+        PurchaseItem(title = "STRANGER THINGS 5", imageRes = R.drawable.img_stranger_things5),
+        PurchaseItem(title = "HALI MARY", imageRes = R.drawable.img_hailmary),
+        PurchaseItem(title = "이 사랑 통역 되나요?", imageRes = R.drawable.img_love_traslate),
+        PurchaseItem(title = "STRANGER THINGS 5", imageRes = R.drawable.img_stranger_things5),
     )
 
     fun saveItem(item: PurchaseItem) = viewModelScope.launch {
