@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.letssopt.R
+import com.example.letssopt.component.UserInfoItem
 
 @Composable
 fun ProfileScreen(
@@ -42,28 +43,29 @@ fun ProfileScreen(
 
         Spacer(modifier = Modifier.height(68.dp))
 
-        Text(
-            text = "아이디",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Medium,
-            fontFamily = FontFamily(Font(R.font.pretendard_bold)),
-            color = Color.White,
-            modifier = Modifier
-                .align(Alignment.Start)
-                .padding(start = 3.dp)
+        UserInfoItem(
+            label = "아이디",
+            value = uiState.loginId
         )
 
-        Spacer(modifier = Modifier.height(14.dp))
+        UserInfoItem(
+            label = "이름",
+            value = uiState.name
+        )
 
-        Text(
-            text = uiState.loginId,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Medium,
-            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-            color = Color(0xFF999999),
-            modifier = Modifier
-                .align(Alignment.Start)
-                .padding(start = 3.dp)
+        UserInfoItem(
+            label = "이메일",
+            value = uiState.email
+        )
+
+        UserInfoItem(
+            label = "나이",
+            value = uiState.age.toString()
+        )
+
+        UserInfoItem(
+            label = "파트",
+            value = uiState.part
         )
     }
 }
