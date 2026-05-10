@@ -4,8 +4,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.letssopt.R
@@ -67,5 +73,26 @@ fun ProfileScreen(
             label = "파트",
             value = uiState.part
         )
+
+        Button(
+            onClick = {},
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFFE8003C),
+                contentColor = Color.White
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 26.dp)
+                .heightIn(min = 52.dp)
+        ) {
+            Text(
+                "다른 유저들 보러 가기",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily(Font(R.font.pretendard_bold)),
+                textAlign = TextAlign.Center,
+            )
+        }
     }
 }
