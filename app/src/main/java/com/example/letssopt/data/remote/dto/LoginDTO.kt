@@ -10,6 +10,7 @@ data class LoginRequest(
     @SerialName("password")
     val password: String
 )
+
 @Serializable
 data class LoginResponse(
     @SerialName("success")
@@ -19,5 +20,13 @@ data class LoginResponse(
     @SerialName("message")
     val message: String,
     @SerialName("code")
-    val code: String
+    val code: String,
+    @SerialName("data")
+    val data: LoginData? = null
+)
+
+@Serializable
+data class LoginData(
+    @SerialName("userId")
+    val userId: Int
 )

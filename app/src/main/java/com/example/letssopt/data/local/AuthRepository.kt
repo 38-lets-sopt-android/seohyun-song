@@ -11,10 +11,22 @@ class AuthRepository(context: Context) {
         return !email.isNullOrEmpty() && !password.isNullOrEmpty()
     }
 
-    fun saveLogin(email:String, password: String) {
+    fun saveLogin(email: String, password: String) {
         pref.edit()
             .putString("email", email)
             .putString("password", password)
             .apply()
+    }
+
+    fun saveUserId(userId: Int) {
+        pref.edit().putInt("userId", userId).apply()
+    }
+
+    fun getUserId(): Int = pref.getInt("userId", -1)
+
+    fun getCredentials(): Pair<String, String> {
+        val email = pref.getString("email", "") ?: ""
+        val password = pref.getString("password", "") ?: ""
+        return Pair(email, password)
     }
 }

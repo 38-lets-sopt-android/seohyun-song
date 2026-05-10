@@ -219,6 +219,8 @@ fun HomeScreen(
 @Composable
 private fun HomeScreenPreview() {
     LETSSOPTTheme {
-        MainScreen()
+        MainScreen(
+            navigateToProfile = {}
+        )
     }
 }

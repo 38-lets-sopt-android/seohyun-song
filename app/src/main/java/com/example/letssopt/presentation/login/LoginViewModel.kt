@@ -44,7 +44,11 @@ class LoginViewModel(
                 )
             }.onSuccess { response ->
                 if (response.isSuccessful) {
+                    val userId = response.body()?.data?.userId
                     authRepository.saveLogin(loginId, pw)
+                    if (userId != null) {
+                        authRepository.saveUserId(userId)
+                    }
                     _uiEvent.emit(LoginUiEvent.ShowToast("로그인에 성공했습니다"))
                     _uiEvent.emit(LoginUiEvent.NavigateToHome)
                 } else {

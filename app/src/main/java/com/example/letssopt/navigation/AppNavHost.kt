@@ -1,7 +1,10 @@
 package com.example.letssopt.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -19,9 +22,11 @@ fun AppNavHost(
     navController: NavHostController
 ) {
     val context = LocalContext.current
+    val authRepository = remember { AuthRepository(context.applicationContext) }
     val appViewModel: AppViewModel = viewModel {
         AppViewModel(AuthRepository(context.applicationContext))
     }
+    val userId by appViewModel.userId.collectAsStateWithLifecycle()
     val startDestination: Any = if (appViewModel.isAutoLoginAvailable()) {
         MainRoute
     } else {
@@ -55,7 +60,7 @@ fun AppNavHost(
 
         composable<MainRoute> {
             MainScreen(
-                navigateToProfile = { userId ->
+                navigateToProfile = {
                     navController.navigate(Profile(userId = userId))
                 }
             )
