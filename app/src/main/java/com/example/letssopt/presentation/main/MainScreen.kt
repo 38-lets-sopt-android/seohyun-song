@@ -46,6 +46,7 @@ import com.example.letssopt.presentation.webtoon.WebtoonScreen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
+    navigateToProfile: (Int) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val tabNavController = rememberNavController()
@@ -84,8 +85,10 @@ fun MainScreen(
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_home_profile),
                                 contentDescription = "profile",
-                                modifier = Modifier.size(24.dp).clickable(onClick = {}),
-                                tint = Color.White
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .clickable(onClick = {navigateToProfile(1)}),
+                                tint = Color.White,
                             )
                         }
                     },

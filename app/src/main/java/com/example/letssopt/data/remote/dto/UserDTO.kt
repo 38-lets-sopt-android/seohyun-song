@@ -14,7 +14,7 @@ data class GetUserResponse(
     @SerialName("code")
     val code: String,
     @SerialName("data")
-    val data: UserData,
+    val data: UserData? = null,
     @SerialName("meta")
     val meta: MetaData? = null
 )

@@ -14,6 +14,9 @@ data object SignUp
 @Serializable
 data object MainRoute
 
+@Serializable
+data class Profile(val userId: Int)
+
 sealed class MainTabRoute
 
 @Serializable data object Home : MainTabRoute()
