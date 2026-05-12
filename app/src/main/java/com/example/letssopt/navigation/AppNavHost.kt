@@ -24,7 +24,7 @@ fun AppNavHost(
     val appViewModel: AppViewModel = viewModel {
         AppViewModel(AuthRepository(context.applicationContext))
     }
-    val userId by appViewModel.userId.collectAsStateWithLifecycle()
+    val loginId by appViewModel.userId.collectAsStateWithLifecycle()
     val startDestination: Any = if (appViewModel.isAutoLoginAvailable()) {
         MainRoute
     } else {
@@ -48,8 +48,8 @@ fun AppNavHost(
 
         composable<SignUp> {
             SignUpRoute(
-                navigateToLogin = { email, password ->
-                    navController.navigate(Login(email = email, password = password)) {
+                navigateToLogin = { loginId, password ->
+                    navController.navigate(Login(loginId = loginId, password = password)) {
                         popUpTo<SignUp> { inclusive = true }
                     }
                 }
@@ -59,7 +59,7 @@ fun AppNavHost(
         composable<MainRoute> {
             MainScreen(
                 navigateToProfile = {
-                    navController.navigate(Profile(userId = userId))
+                    navController.navigate(Profile(loginId))
                 }
             )
         }

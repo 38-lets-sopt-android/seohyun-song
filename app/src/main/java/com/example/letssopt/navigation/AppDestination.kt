@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Login(
-    val email: String = "",
+    val loginId: String = "",
     val password: String = ""
 )
 
@@ -16,6 +16,9 @@ data object MainRoute
 
 @Serializable
 data class Profile(val userId: Int)
+
+@Serializable
+data class HomeRoute(val userId: Int)
 
 sealed class MainTabRoute
 
