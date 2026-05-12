@@ -1,17 +1,17 @@
 package com.example.letssopt.data.remote.api.service
 
-import com.example.letssopt.data.remote.dto.LoginRequest
-import com.example.letssopt.data.remote.dto.LoginResponse
-import com.example.letssopt.data.remote.dto.SignUpRequest
-import com.example.letssopt.data.remote.dto.SignUpResponse
+import com.example.letssopt.data.remote.dto.PostLoginRequest
+import com.example.letssopt.data.remote.dto.PostLoginResponse
+import com.example.letssopt.data.remote.dto.PostSignUpRequest
+import com.example.letssopt.data.remote.dto.PostSignUpResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface AuthService {
     @POST("api/v1/auth/signup")
-    suspend fun signUp(@Body request: SignUpRequest): Response<SignUpResponse>
+    suspend fun signUp(@Body request: PostSignUpRequest): Response<PostSignUpResponse>
 
     @POST("api/v1/auth/signin")
-    suspend fun signIn(@Body request: LoginRequest): Response<LoginResponse>
+    suspend fun signIn(@Body request: PostLoginRequest): Response<PostLoginResponse>
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.letssopt.data.local.AuthRepository
 import com.example.letssopt.data.remote.RetrofitClient
-import com.example.letssopt.data.remote.dto.LoginRequest
+import com.example.letssopt.data.remote.dto.PostLoginRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,7 +22,7 @@ class AppViewModel(private val authRepository: AuthRepository) : ViewModel() {
             viewModelScope.launch {
                 val (loginId, password) = authRepository.getCredentials()
                 runCatching {
-                    RetrofitClient.authService.signIn(LoginRequest(loginId, password))
+                    RetrofitClient.authService.signIn(PostLoginRequest(loginId, password))
                 }.onSuccess { response ->
                     response.body()?.data?.userId?.let { id ->
                         authRepository.saveUserId(id)

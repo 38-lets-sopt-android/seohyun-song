@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class LoginRequest(
+data class PostLoginRequest(
     @SerialName("loginId")
     val loginId: String,
     @SerialName("password")
@@ -12,7 +12,7 @@ data class LoginRequest(
 )
 
 @Serializable
-data class LoginResponse(
+data class PostLoginResponse(
     @SerialName("success")
     val success: Boolean,
     @SerialName("status")

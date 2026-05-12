@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.letssopt.data.local.AuthRepository
 import com.example.letssopt.data.remote.RetrofitClient
-import com.example.letssopt.data.remote.dto.LoginRequest
-import com.example.letssopt.data.remote.dto.LoginResponse
+import com.example.letssopt.data.remote.dto.PostLoginRequest
+import com.example.letssopt.data.remote.dto.PostLoginResponse
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -40,7 +40,7 @@ class LoginViewModel(
         viewModelScope.launch {
             runCatching {
                 RetrofitClient.authService.signIn(
-                    LoginRequest(loginId = loginId, password = pw)
+                    PostLoginRequest(loginId = loginId, password = pw)
                 )
             }.onSuccess { response ->
                 if (response.isSuccessful) {
@@ -55,7 +55,7 @@ class LoginViewModel(
                     val errorMessage = runCatching {
                         val errorJson = response.errorBody()?.string()
                         Json { ignoreUnknownKeys = true }
-                            .decodeFromString<LoginResponse>(errorJson ?: "").message
+                            .decodeFromString<PostLoginResponse>(errorJson ?: "").message
                     }.getOrDefault("이메일 또는 비밀번호가 올바르지 않습니다")
                     _uiEvent.emit(LoginUiEvent.ShowToast(errorMessage))
                 }

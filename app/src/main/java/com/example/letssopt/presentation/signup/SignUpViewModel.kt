@@ -4,7 +4,7 @@ import android.util.Patterns.EMAIL_ADDRESS
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.letssopt.data.remote.RetrofitClient
-import com.example.letssopt.data.remote.dto.SignUpRequest
+import com.example.letssopt.data.remote.dto.PostSignUpRequest
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -73,7 +73,7 @@ class SignUpViewModel : ViewModel() {
                 else -> {
                     runCatching {
                         RetrofitClient.authService.signUp(
-                            SignUpRequest(loginId, pw, name, email, age, part)
+                            PostSignUpRequest(loginId, pw, name, email, age, part)
                         )
                     }.onSuccess { response ->
                         if (response.isSuccessful) {
