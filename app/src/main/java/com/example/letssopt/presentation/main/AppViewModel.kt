@@ -20,9 +20,9 @@ class AppViewModel(private val authRepository: AuthRepository) : ViewModel() {
     init {
         if (authRepository.isAutoLoginAvailable() && authRepository.getUserId() == -1) {
             viewModelScope.launch {
-                val (email, password) = authRepository.getCredentials()
+                val (loginId, password) = authRepository.getCredentials()
                 runCatching {
-                    RetrofitClient.authService.signIn(LoginRequest(email, password))
+                    RetrofitClient.authService.signIn(LoginRequest(loginId, password))
                 }.onSuccess { response ->
                     response.body()?.data?.userId?.let { id ->
                         authRepository.saveUserId(id)
