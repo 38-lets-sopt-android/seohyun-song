@@ -24,7 +24,9 @@ fun UserInfoItem(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.fillMaxWidth().padding(start = 3.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(start = 3.dp),
     ) {
         Text(
             text = label,

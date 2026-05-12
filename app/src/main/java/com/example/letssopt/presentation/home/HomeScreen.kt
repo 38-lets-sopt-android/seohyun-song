@@ -33,7 +33,6 @@ import com.example.letssopt.component.NewContentCard
 import com.example.letssopt.component.WatchaPartyCard
 import com.example.letssopt.presentation.home.model.ContentItem
 import com.example.letssopt.presentation.home.model.WatchaPartyItem
-import com.example.letssopt.presentation.main.MainScreen
 import com.example.letssopt.ui.theme.LETSSOPTTheme
 
 @Composable
@@ -219,8 +218,12 @@ fun HomeScreen(
 @Composable
 private fun HomeScreenPreview() {
     LETSSOPTTheme {
-        MainScreen(
-            navigateToProfile = {}
+        HomeScreen(
+            innerPadding = PaddingValues(),
+            newContents = listOf(),
+            watGorithm = listOf(),
+            upComing = listOf(),
+            watchaParty = listOf()
         )
     }
 }
