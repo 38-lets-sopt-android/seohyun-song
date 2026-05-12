@@ -39,6 +39,7 @@ fun AppNavHost(
             LoginRoute(
                 navigateToSignUp = { navController.navigate(SignUp) },
                 navigateToHome = {
+                    appViewModel.refreshUserId()
                     navController.navigate(MainRoute) {
                         popUpTo<Login> { inclusive = true }
                     }

@@ -17,6 +17,10 @@ class AppViewModel(private val authRepository: AuthRepository) : ViewModel() {
 
     fun isAutoLoginAvailable(): Boolean = authRepository.isAutoLoginAvailable()
 
+    fun refreshUserId() {
+        _userId.value = authRepository.getUserId()
+    }
+
     init {
         if (authRepository.isAutoLoginAvailable() && authRepository.getUserId() == -1) {
             viewModelScope.launch {
