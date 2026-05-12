@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.example.letssopt.core.MainRoute
 import com.example.letssopt.data.local.AuthRepository
 import com.example.letssopt.presentation.login.LoginRoute
 import com.example.letssopt.presentation.main.AppViewModel

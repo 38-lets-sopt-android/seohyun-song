@@ -22,11 +22,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.letssopt.R
 import com.example.letssopt.component.NavigationItem
-import com.example.letssopt.navigation.Folder
-import com.example.letssopt.navigation.Home
-import com.example.letssopt.navigation.Purchase
-import com.example.letssopt.navigation.Search
-import com.example.letssopt.navigation.Webtoon
+import com.example.letssopt.core.Folder
+import com.example.letssopt.core.Home
+import com.example.letssopt.core.Purchase
+import com.example.letssopt.core.Search
+import com.example.letssopt.core.Webtoon
 import com.example.letssopt.presentation.folder.FolderScreen
 import com.example.letssopt.presentation.home.HomeRoute
 import com.example.letssopt.presentation.purchase.PurchaseScreen
