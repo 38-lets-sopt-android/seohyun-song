@@ -4,6 +4,7 @@ import android.util.Patterns.EMAIL_ADDRESS
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.letssopt.data.remote.RetrofitClient
+import com.example.letssopt.data.remote.dto.PostLoginResponse
 import com.example.letssopt.data.remote.dto.PostSignUpRequest
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 
 class SignUpViewModel : ViewModel() {
 
@@ -80,8 +82,12 @@ class SignUpViewModel : ViewModel() {
                             _uiEvent.emit(SignUpUiEvent.ShowToast("회원가입에 성공했습니다"))
                             _uiEvent.emit(SignUpUiEvent.NavigateToLogin(email, pw))
                         } else {
-                            val message = response.body()?.message ?: "회원가입에 실패했습니다"
-                            _uiEvent.emit(SignUpUiEvent.ShowToast(message))
+                            val errorMessage = runCatching {
+                                val errorJson = response.errorBody()?.string()
+                                Json { ignoreUnknownKeys = true }
+                                    .decodeFromString<PostLoginResponse>(errorJson ?: "회원가입에 실패했습니다.").message
+                            }.getOrDefault("")
+                            _uiEvent.emit(SignUpUiEvent.ShowToast(errorMessage))
                         }
                     }.onFailure { e ->
                         _uiEvent.emit(SignUpUiEvent.ShowToast(e.message ?: "네트워크 오류가 발생했습니다"))
