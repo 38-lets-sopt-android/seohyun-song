@@ -72,7 +72,7 @@ class SignUpViewModel : ViewModel() {
                 }
                 else -> {
                     runCatching {
-                        RetrofitClient.apiService.signUp(
+                        RetrofitClient.authService.signUp(
                             SignUpRequest(loginId, pw, name, email, age, part)
                         )
                     }.onSuccess { response ->

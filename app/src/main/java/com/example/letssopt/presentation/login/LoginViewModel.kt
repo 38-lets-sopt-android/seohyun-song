@@ -39,7 +39,7 @@ class LoginViewModel(
 
         viewModelScope.launch {
             runCatching {
-                RetrofitClient.apiService.signIn(
+                RetrofitClient.authService.signIn(
                     LoginRequest(loginId = loginId, password = pw)
                 )
             }.onSuccess { response ->

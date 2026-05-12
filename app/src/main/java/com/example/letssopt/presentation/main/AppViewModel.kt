@@ -22,7 +22,7 @@ class AppViewModel(private val authRepository: AuthRepository) : ViewModel() {
             viewModelScope.launch {
                 val (email, password) = authRepository.getCredentials()
                 runCatching {
-                    RetrofitClient.apiService.signIn(LoginRequest(email, password))
+                    RetrofitClient.authService.signIn(LoginRequest(email, password))
                 }.onSuccess { response ->
                     response.body()?.data?.userId?.let { id ->
                         authRepository.saveUserId(id)

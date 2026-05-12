@@ -22,7 +22,7 @@ class ProfileViewModel : ViewModel() {
     fun getUser(userId: Int) {
         viewModelScope.launch {
             runCatching {
-                RetrofitClient.apiService.getUser(userId)
+                RetrofitClient.userService.getUser(userId)
             }
                 .onSuccess { response ->
                     response.data?.let { data ->
