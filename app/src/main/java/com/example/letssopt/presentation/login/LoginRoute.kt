@@ -11,8 +11,6 @@ import com.example.letssopt.data.local.AuthRepository
 
 @Composable
 fun LoginRoute(
-    registeredEmail: String,
-    registeredPw: String,
     navigateToSignUp: () -> Unit,
     navigateToHome: () -> Unit,
 ) {
@@ -34,14 +32,9 @@ fun LoginRoute(
 
     LoginScreen(
         uiState = uiState,
-        onEmailChange = viewModel::onEmailChange,
+        onloginIdChange = viewModel::onloginIdChange,
         onPasswordChange = viewModel::onPasswordChange,
-        onLoginClick = {
-            viewModel.login(
-                registeredEmail = registeredEmail,
-                registeredPw = registeredPw
-            )
-        },
+        onLoginClick = viewModel::login,
         navigateToSignUp = navigateToSignUp
     )
 }

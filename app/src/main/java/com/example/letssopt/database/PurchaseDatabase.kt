@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.letssopt.dao.PurchaseDAO
+import com.example.letssopt.data.local.dao.PurchaseDAO
 import com.example.letssopt.entity.PurchaseList
 
 @Database(entities = [PurchaseList::class], version = 1)

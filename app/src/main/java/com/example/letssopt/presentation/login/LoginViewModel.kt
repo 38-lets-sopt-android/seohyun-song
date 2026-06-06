@@ -3,6 +3,9 @@ package com.example.letssopt.presentation.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.letssopt.data.local.AuthRepository
+import com.example.letssopt.data.remote.RetrofitClient
+import com.example.letssopt.data.remote.dto.PostLoginRequest
+import com.example.letssopt.data.remote.dto.PostLoginResponse
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -11,6 +14,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 
 class LoginViewModel(
     private val authRepository: AuthRepository
@@ -21,31 +25,42 @@ class LoginViewModel(
     private val _uiEvent = MutableSharedFlow<LoginUiEvent>()
     val uiEvent: SharedFlow<LoginUiEvent> = _uiEvent.asSharedFlow()
 
-    fun onEmailChange(email: String) {
-        _uiState.update { it.copy(emailInput = email) }
+    fun onloginIdChange(loginId: String) {
+        _uiState.update { it.copy(loginIdInput = loginId) }
     }
 
     fun onPasswordChange(password: String) {
         _uiState.update { it.copy(pwInput = password) }
     }
 
-    fun login(registeredEmail: String, registeredPw: String) {
-        val email = _uiState.value.emailInput
+    fun login() {
+        val loginId = _uiState.value.loginIdInput
         val pw = _uiState.value.pwInput
 
         viewModelScope.launch {
-            when {
-                registeredEmail.isEmpty() || registeredPw.isEmpty() -> {
-                    _uiEvent.emit(LoginUiEvent.ShowToast("먼저 회원가입을 진행해 주세요"))
-                }
-                email != registeredEmail || pw != registeredPw -> {
-                    _uiEvent.emit(LoginUiEvent.ShowToast("이메일 또는 비밀번호가 올바르지 않습니다"))
-                }
-                else -> {
-                    authRepository.saveLogin(email, pw)
+            runCatching {
+                RetrofitClient.authService.signIn(
+                    PostLoginRequest(loginId = loginId, password = pw)
+                )
+            }.onSuccess { response ->
+                if (response.isSuccessful) {
+                    val userId = response.body()?.data?.userId
+                    authRepository.saveLogin(loginId, pw)
+                    if (userId != null) {
+                        authRepository.saveUserId(userId)
+                    }
                     _uiEvent.emit(LoginUiEvent.ShowToast("로그인에 성공했습니다"))
                     _uiEvent.emit(LoginUiEvent.NavigateToHome)
+                } else {
+                    val errorMessage = runCatching {
+                        val errorJson = response.errorBody()?.string()
+                        Json { ignoreUnknownKeys = true }
+                            .decodeFromString<PostLoginResponse>(errorJson ?: "").message
+                    }.getOrDefault("이메일 또는 비밀번호가 올바르지 않습니다")
+                    _uiEvent.emit(LoginUiEvent.ShowToast(errorMessage))
                 }
+            }.onFailure { e ->
+                _uiEvent.emit(LoginUiEvent.ShowToast(e.message ?: "네트워크 오류가 발생했습니다"))
             }
         }
     }

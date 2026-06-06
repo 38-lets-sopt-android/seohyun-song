@@ -35,7 +35,7 @@ import com.example.letssopt.ui.theme.LETSSOPTTheme
 @Composable
 fun LoginScreen(
     uiState: LoginUiState,
-    onEmailChange: (String) -> Unit,
+    onloginIdChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onLoginClick: () -> Unit,
     navigateToSignUp: () -> Unit,
@@ -60,9 +60,8 @@ fun LoginScreen(
                 .padding(top = 60.dp),
         )
 
-        // 이메일로 로그인
         Text (
-            text = "이메일로 로그인",
+            text = "아이디로 로그인",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             fontFamily = FontFamily(Font(R.font.pretendard_bold)),
@@ -72,9 +71,8 @@ fun LoginScreen(
                 .padding(top = 26.dp),
         )
 
-        // 이메일
         Text (
-            text = "이메일",
+            text = "아이디",
             fontSize = 14.sp,
             fontWeight = FontWeight.Medium,
             fontFamily = FontFamily(Font(R.font.pretendard_regular)),
@@ -87,8 +85,8 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(3.dp))
 
         TextField (
-            value = uiState.emailInput,
-            onValueChange = { onEmailChange(it) },
+            value = uiState.loginIdInput,
+            onValueChange = { onloginIdChange(it) },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
             textStyle = TextStyle(
@@ -98,7 +96,7 @@ fun LoginScreen(
                 color = Color.White
             ),
             placeholder = { Text(
-                text = "이메일 주소를 입력하세요",
+                text = "아이디를 입력하세요",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium,
                 fontFamily = FontFamily(Font(R.font.pretendard_regular)),
@@ -206,7 +204,7 @@ private fun LoginScreenPreview() {
     LETSSOPTTheme {
         LoginScreen(
             uiState = LoginUiState(),
-            onEmailChange = {},
+            onloginIdChange = {},
             onPasswordChange = {},
             onLoginClick = {},
             navigateToSignUp = {}

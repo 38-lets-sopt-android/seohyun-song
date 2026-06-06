@@ -1,12 +1,16 @@
 package com.example.letssopt.presentation.signup
 
 data class SignUpUiState(
-    val emailInput: String = "",
+    val loginIdInput: String = "",
     val pwInput: String = "",
-    val pwConfirm: String =""
+    val pwConfirm: String ="",
+    val nameInput: String = "",
+    val emailInput: String = "",
+    val ageInput: String = "",
+    val partInput: String = ""
 ) {
     val isButtonEnabled: Boolean
-        get() = emailInput.isNotBlank() && pwInput.isNotBlank() && pwConfirm.isNotBlank()
+        get() = loginIdInput.isNotBlank() && pwInput.isNotBlank() && pwConfirm.isNotBlank() && nameInput.isNotBlank() && emailInput.isNotBlank() && ageInput.isNotBlank() && partInput.isNotBlank()
 }
 
 sealed class SignUpUiEvent {

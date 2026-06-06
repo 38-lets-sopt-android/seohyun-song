@@ -3,6 +3,9 @@ package com.example.letssopt.presentation.signup
 import android.util.Patterns.EMAIL_ADDRESS
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.letssopt.data.remote.RetrofitClient
+import com.example.letssopt.data.remote.dto.PostLoginResponse
+import com.example.letssopt.data.remote.dto.PostSignUpRequest
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -11,6 +14,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 
 class SignUpViewModel : ViewModel() {
 
@@ -20,8 +24,8 @@ class SignUpViewModel : ViewModel() {
     private val _uiEvent = MutableSharedFlow<SignUpUiEvent>()
     val uiEvent: SharedFlow<SignUpUiEvent> = _uiEvent.asSharedFlow()
 
-    fun onEmailChange(email: String) {
-        _uiState.update { it.copy(emailInput = email) }
+    fun onLoginIdChange(login: String) {
+        _uiState.update { it.copy(loginIdInput = login) }
     }
 
     fun onPasswordChange(password: String) {
@@ -32,10 +36,30 @@ class SignUpViewModel : ViewModel() {
         _uiState.update { it.copy(pwConfirm = passwordConfirm) }
     }
 
+    fun onNameChange(name: String) {
+        _uiState.update { it.copy(nameInput = name) }
+    }
+
+    fun onEmailChange(email: String) {
+        _uiState.update { it.copy(emailInput = email) }
+    }
+
+    fun onAgeChange(age: String) {
+        _uiState.update { it.copy(ageInput = age) }
+    }
+
+    fun onPartChange(part: String) {
+        _uiState.update { it.copy(partInput = part) }
+    }
+
     fun signUp() {
-        val email = _uiState.value.emailInput
+        val loginId = _uiState.value.loginIdInput
         val pw = _uiState.value.pwInput
         val pwConfirm = _uiState.value.pwConfirm
+        val name = _uiState.value.nameInput
+        val email = _uiState.value.emailInput
+        val age = _uiState.value.ageInput.toInt()
+        val part = _uiState.value.partInput
 
         viewModelScope.launch {
             when {
@@ -49,8 +73,25 @@ class SignUpViewModel : ViewModel() {
                     _uiEvent.emit(SignUpUiEvent.ShowToast("비밀번호가 일치하지 않습니다"))
                 }
                 else -> {
-                    _uiEvent.emit(SignUpUiEvent.ShowToast("회원가입에 성공했습니다"))
-                    _uiEvent.emit(SignUpUiEvent.NavigateToLogin(email, pw))
+                    runCatching {
+                        RetrofitClient.authService.signUp(
+                            PostSignUpRequest(loginId, pw, name, email, age, part)
+                        )
+                    }.onSuccess { response ->
+                        if (response.isSuccessful) {
+                            _uiEvent.emit(SignUpUiEvent.ShowToast("회원가입에 성공했습니다"))
+                            _uiEvent.emit(SignUpUiEvent.NavigateToLogin(email, pw))
+                        } else {
+                            val errorMessage = runCatching {
+                                val errorJson = response.errorBody()?.string()
+                                Json { ignoreUnknownKeys = true }
+                                    .decodeFromString<PostLoginResponse>(errorJson ?: "회원가입에 실패했습니다.").message
+                            }.getOrDefault("")
+                            _uiEvent.emit(SignUpUiEvent.ShowToast(errorMessage))
+                        }
+                    }.onFailure { e ->
+                        _uiEvent.emit(SignUpUiEvent.ShowToast(e.message ?: "네트워크 오류가 발생했습니다"))
+                    }
                 }
             }
         }

@@ -3,7 +3,7 @@ package com.example.letssopt.presentation.purchase
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.letssopt.R
-import com.example.letssopt.dao.PurchaseDAO
+import com.example.letssopt.data.local.dao.PurchaseDAO
 import com.example.letssopt.entity.PurchaseList
 import com.example.letssopt.presentation.purchase.model.PurchaseItem
 import kotlinx.coroutines.flow.SharingStarted
